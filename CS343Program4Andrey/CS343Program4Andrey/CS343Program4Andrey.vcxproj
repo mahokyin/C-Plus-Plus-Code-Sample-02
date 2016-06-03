@@ -79,6 +79,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="movie.cpp" />
+    <ClCompile Include="moviestore.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="classic.h" />
+    <ClInclude Include="comedy.h" />
+    <ClInclude Include="drama.h" />
+    <ClInclude Include="movie.h" />
+    <ClInclude Include="moviestore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

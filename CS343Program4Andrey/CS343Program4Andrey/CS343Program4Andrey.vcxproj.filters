@@ -18,5 +18,28 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="movie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="moviestore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="movie.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="moviestore.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="comedy.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="classic.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drama.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
