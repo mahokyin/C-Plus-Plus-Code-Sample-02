@@ -52,6 +52,22 @@ bool readCustomerData(ifstream &input) {
 	return true;
 }
 
+void clearCustomer() {
+	for (int i = 0; i < 10; i++) {
+		CustomerHashNode *currentNode = customerHashTable[i];
+		while (currentNode != NULL) {
+			CustomerHashNode *oldPtr = currentNode;
+			currentNode = currentNode->next;
+			delete oldPtr; oldPtr = NULL;
+		}
+	}
+}
+
+void clearCustomerTable() {
+	clearCustomer();
+	delete[] customerHashTable;
+}
+
 int main() {
 	ifstream idTextFile("data4customers.txt");
 	readCustomerData(idTextFile);
@@ -65,8 +81,8 @@ int main() {
 		}
 		cout << endl;
 	}
+	clearCustomerTable();
 	
-
 	system("pause");
 	return 0;
 }
