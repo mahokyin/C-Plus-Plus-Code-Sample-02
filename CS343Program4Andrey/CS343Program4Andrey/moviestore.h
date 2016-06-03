@@ -13,7 +13,7 @@ public:
 	MovieStore(); //creates a new instance of MovieStore that is empty.
 	//void addCustomer(Customer newCustomer); //adds a new customer into the hash array of customers
 	//using the line taken from the text document.
-	void addMovie(Movie *newMovie); //adds a new movie into the movie double linked lsisted
+	void addMovie(Movie *Movie, int stock); //adds a new movie into the movie double linked lsisted
 	//using the line taken from the text document.
 	void displayCustomerHistory(string line); //takes the line that asks to print the information
 	//of the transactions of a user, and prints it.
@@ -35,15 +35,15 @@ private:
 		Movie *m;
 		int stock;
 		int maxStock;
-		movieNode *next;
+		movieNode *next = NULL;
 	};
 	struct movieHead {  // struct to store the information about the different genres, and
 		//holds the head of the movieNode of that genre.
 		string genre;
-		movieHead *nextGenre;
-		movieNode *first;
+		movieHead *nextGenre = NULL; //down pointer
+		movieNode *first = NULL;	  //right pointer
 	};
-	movieHead *head; // holds all the information about the movies in the store. can be viewed as
+	movieHead *head = NULL; // holds all the information about the movies in the store. can be viewed as
 	// linked list of linked lists.
 
 

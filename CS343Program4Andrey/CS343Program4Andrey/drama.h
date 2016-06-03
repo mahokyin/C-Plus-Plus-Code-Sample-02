@@ -10,6 +10,7 @@ class Drama :public Movie
 {
 public:
 	Drama();
+	Drama(string, string, int, string);
 	~Drama();
 	bool operator==(const Movie &);
 	bool operator!=(const Movie &);

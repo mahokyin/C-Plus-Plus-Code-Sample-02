@@ -14,11 +14,22 @@
 using namespace std;
 
 
+MovieStore::MovieStore()
+{
+	head->nextGenre = new movieHead;
+	head->nextGenre->genre = "classic";
+	head->nextGenre->nextGenre = new movieHead;
+	head->nextGenre->nextGenre->genre = "comedy";
+	head->nextGenre->nextGenre->nextGenre = new movieHead;
+	head->nextGenre->nextGenre->nextGenre->genre = "drama";
+	head->nextGenre->nextGenre->nextGenre->nextGenre = NULL;
+}
+
 
 void MovieStore::readMovieData(ifstream &movieTextFile)
 {
 	string genre; //genre
-	int stock = 0; //stock
+	int stockAmount = 0; //stock
 	string movieName;
 	string director;
 	int movieYear;
@@ -37,7 +48,7 @@ void MovieStore::readMovieData(ifstream &movieTextFile)
 		if (genre == "F" || genre == "D")
 		{
 			movieTextFile.get();
-			movieTextFile >> stock;
+			movieTextFile >> stockAmount;
 
 			movieTextFile.get();
 			getline(movieTextFile, director, ',');
@@ -48,22 +59,23 @@ void MovieStore::readMovieData(ifstream &movieTextFile)
 			movieTextFile.get();
 			movieTextFile >> movieYear;
 
-			cout << "|Genre|: " << genre << " |Stock|: " << stock << " |Director|: " << director << " |Movie Name|: " << movieName << " |Year|: " << movieYear << endl;
+			//cout << "|Genre|: " << genre << " |Stock|: " << stock << " |Director|: " << director << " |Movie Name|: " << movieName << " |Year|: " << movieYear << endl;
 
 			if (genre == "F")
 			{
-				Comedy newMovie(director, title, year, genre);
+				Comedy *newMovieF = new Comedy(director, movieName, movieYear, genre);
+				addMovie(newMovieF, stockAmount);
 			}
 			else
 			{
-				Drama newMovie();
+				Drama *newMovieD = new Drama(director, movieName, movieYear, genre);
+				addMovie(newMovieD, stockAmount);
 			}
-			Movie newMovie();
 		}
 		else if (genre == "C" || genre == "Z")
 		{
 			movieTextFile.get();
-			movieTextFile >> stock;
+			movieTextFile >> stockAmount;
 
 			movieTextFile.get();
 			getline(movieTextFile, director, ',');
@@ -83,11 +95,45 @@ void MovieStore::readMovieData(ifstream &movieTextFile)
 			movieTextFile.get();
 			movieTextFile >> movieYear;
 
-			cout << "|Genre|: " << genre << " |Stock|: " << stock << " |Director|: " << director << " |Movie Name|: " << movieName << " |First|: " << firstName << " |Second|: " << lastName << " |Day|: " << movieDay << " |Year|: " << movieYear << endl;
-		}
+			if (genre == "C")
+			{
+				Classic *newMovieC = new Classic(director, movieName, movieYear, genre, firstName + lastName, movieDay);
+				addMovie(newMovieC, stockAmount);
+			}
 
-		
+			//cout << "|Genre|: " << genre << " |Stock|: " << stock << " |Director|: " << director << " |Movie Name|: " << movieName << " |First|: " << firstName << " |Second|: " << lastName << " |Day|: " << movieDay << " |Year|: " << movieYear << endl;
+		}
+	}	 
+}
+
+void MovieStore::addMovie(Movie *newMovie, int stockAmount)
+{
+	movieHead *curr = head;
+
+	if (Classic *classic = dynamic_cast<Classic*>(newMovie))
+	{
+		while (curr->nextGenre != NULL)
+		{
+			if (curr->genre == "classic")
+			{
+				if(curr->first == NULL)
+				{
+					curr->first = new movieNode;
+					curr->first->maxStock = stockAmount;
+					curr->first->stock = stockAmount;
+					curr->first->next = NULL;
+					curr->first->m = classic;
+				}
+			}
+		}
+	}
+	else if (Drama *drama = dynamic_cast<Drama*>(newMovie))
+	{
+
+	}
+	else if (Comedy *comedy = dynamic_cast<Comedy*>(newMovie))
+	{
+
 	}
 
-	 
 }

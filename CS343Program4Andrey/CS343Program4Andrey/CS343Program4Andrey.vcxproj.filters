@@ -24,6 +24,15 @@
     <ClCompile Include="moviestore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="comedy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drama.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="classic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="movie.h">
