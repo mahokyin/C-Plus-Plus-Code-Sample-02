@@ -12,10 +12,10 @@ public:
 	Comedy();
 	Comedy(string, string, int, string);
 	~Comedy();
-	bool operator==(const Movie &);
-	bool operator!=(const Movie &);
-	bool operator<(const Movie &);
-	bool operator>(const Movie &);
+	bool operator==(const Comedy &) const;
+	bool operator!=(const Comedy &) const;
+	bool operator<(const Comedy &) const;
+	bool operator>(const Comedy &) const;
 
 protected:
 };

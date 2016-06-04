@@ -12,17 +12,28 @@ Comedy::Comedy(string d, string t , int y, string ty)
 	type = ty;
 }
 
-bool Comedy::operator==(const Movie &rhs)
+bool Comedy::operator==(const Comedy &rhs) const
 {
-	if (rhs.getTitle() == this->getTitle())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	if (rhs.getTitle() != this->getTitle()) return false;
+	if (rhs.getDirector() != this->getDirector()) return false;
+	if (rhs.getYear() != this->getYear()) return false;
+
+	return true;
 }
-//bool operator!=(const Movie &);
-//bool operator<(const Movie &);
-//bool operator>(const Movie &);
+
+bool Comedy::operator!=(const Comedy &rhs) const
+{
+	return !(rhs == *this);
+}
+
+bool Comedy::operator<(const Comedy &rhs) const
+{
+	if ((rhs.getTitle())[0] < (this->getTitle())[0]) return false;
+
+	return true;
+}
+
+bool Comedy::operator>(const Comedy &rhs) const
+{
+	return (rhs < *this);
+}

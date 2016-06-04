@@ -110,29 +110,182 @@ void MovieStore::addMovie(Movie *newMovie, int stockAmount)
 {
 	movieHead *curr = head;
 
-	if (Classic *classic = dynamic_cast<Classic*>(newMovie))
+	while (curr->nextGenre != NULL)
 	{
-		while (curr->nextGenre != NULL)
+		if (Classic *classic = dynamic_cast<Classic*>(newMovie))
 		{
 			if (curr->genre == "classic")
 			{
-				if(curr->first == NULL)
+				Classic *c = dynamic_cast<Classic*>(curr->first->m);
+
+				if (curr->first == NULL)
 				{
 					curr->first = new movieNode;
 					curr->first->maxStock = stockAmount;
 					curr->first->stock = stockAmount;
 					curr->first->next = NULL;
-					curr->first->m = classic;
+					c = classic;
+				}
+				else 
+				{
+					movieNode *currMovieNode = curr->first;
+					c = dynamic_cast<Classic*>(currMovieNode->m);
+
+					movieNode *prevMovieNode = NULL;
+					Classic *prevC = NULL;
+					while (currMovieNode != NULL)
+					{
+						if (c->getDay() == classic->getDay())
+						{
+							if (classic->getActor()[0] == c->getActor()[0])
+							{
+								prevMovieNode = currMovieNode;
+								prevC = dynamic_cast<Classic*>(currMovieNode->m);
+								currMovieNode = currMovieNode->next;
+								if (currMovieNode == NULL)
+								{
+									prevMovieNode->next = new movieNode;
+									prevMovieNode->next->m = classic;
+									prevMovieNode->next->maxStock = stockAmount;
+									prevMovieNode->next->stock = stockAmount;
+									prevMovieNode->next->next = NULL;
+									break;
+								}
+							}
+							else if (classic->getActor()[0] < c->getActor()[0])
+							{
+								prevMovieNode->next = new movieNode;
+								prevMovieNode->next->m = classic;
+								prevMovieNode->next->maxStock = stockAmount;
+								prevMovieNode->next->stock = stockAmount;
+								prevMovieNode->next->next = currMovieNode;
+								break;
+							}
+							else if (classic->getActor()[0] > c->getActor()[0])
+							{
+								prevMovieNode = currMovieNode;
+								prevC = dynamic_cast<Classic*>(currMovieNode->m);
+								currMovieNode = currMovieNode->next;
+							}
+						} 
+						else if (classic->getDay() > c->getDay())
+						{
+							prevMovieNode = currMovieNode;
+							prevC = dynamic_cast<Classic*>(currMovieNode->m);
+							currMovieNode = currMovieNode->next;
+							if (currMovieNode == NULL) 
+							{
+								prevMovieNode->next = new movieNode;
+								prevMovieNode->next->m = classic;
+								prevMovieNode->next->maxStock = stockAmount;
+								prevMovieNode->next->stock = stockAmount;
+								prevMovieNode->next->next = NULL;
+								break;
+							}
+						}
+						else if (classic->getDay() < c->getDay())
+						{
+							prevMovieNode->next = new movieNode;
+							prevMovieNode->next->m = classic;
+							prevMovieNode->next->maxStock = stockAmount;
+							prevMovieNode->next->stock = stockAmount;
+							prevMovieNode->next->next = currMovieNode;
+							break;
+						}
+					}
 				}
 			}
 		}
-	}
-	else if (Drama *drama = dynamic_cast<Drama*>(newMovie))
-	{
+		else if (Drama *drama = dynamic_cast<Drama*>(newMovie))
+		{/*
+			if (curr->genre == "drama")
+			{
+				Drama *c = dynamic_cast<Drama*>(curr->first->m);
 
-	}
-	else if (Comedy *comedy = dynamic_cast<Comedy*>(newMovie))
-	{
+				if (curr->first == NULL)
+				{
+					curr->first = new movieNode;
+					curr->first->maxStock = stockAmount;
+					curr->first->stock = stockAmount;
+					curr->first->next = NULL;
+					c = drama;
+				}
+				else
+				{
+					movieNode *currMovieNode = curr->first;
+					c = dynamic_cast<Classic*>(currMovieNode->m);
+
+					movieNode *prevMovieNode = NULL;
+					Classic *prevC = NULL;
+					while (currMovieNode != NULL)
+					{
+						if (c->getDay() == classic->getDay())
+						{
+							if (classic->getActor()[0] == c->getActor()[0])
+							{
+								prevMovieNode = currMovieNode;
+								prevC = dynamic_cast<Classic*>(currMovieNode->m);
+								currMovieNode = currMovieNode->next;
+								if (currMovieNode == NULL)
+								{
+									prevMovieNode->next = new movieNode;
+									prevMovieNode->next->m = classic;
+									prevMovieNode->next->maxStock = stockAmount;
+									prevMovieNode->next->stock = stockAmount;
+									prevMovieNode->next->next = NULL;
+									break;
+								}
+							}
+							else if (classic->getActor()[0] < c->getActor()[0])
+							{
+								prevMovieNode->next = new movieNode;
+								prevMovieNode->next->m = classic;
+								prevMovieNode->next->maxStock = stockAmount;
+								prevMovieNode->next->stock = stockAmount;
+								prevMovieNode->next->next = currMovieNode;
+								break;
+							}
+							else if (classic->getActor()[0] > c->getActor()[0])
+							{
+								prevMovieNode = currMovieNode;
+								prevC = dynamic_cast<Classic*>(currMovieNode->m);
+								currMovieNode = currMovieNode->next;
+							}
+						}
+						else if (classic->getDay() > c->getDay())
+						{
+							prevMovieNode = currMovieNode;
+							prevC = dynamic_cast<Classic*>(currMovieNode->m);
+							currMovieNode = currMovieNode->next;
+							if (currMovieNode == NULL)
+							{
+								prevMovieNode->next = new movieNode;
+								prevMovieNode->next->m = classic;
+								prevMovieNode->next->maxStock = stockAmount;
+								prevMovieNode->next->stock = stockAmount;
+								prevMovieNode->next->next = NULL;
+								break;
+							}
+						}
+						else if (classic->getDay() < c->getDay())
+						{
+							prevMovieNode->next = new movieNode;
+							prevMovieNode->next->m = classic;
+							prevMovieNode->next->maxStock = stockAmount;
+							prevMovieNode->next->stock = stockAmount;
+							prevMovieNode->next->next = currMovieNode;
+							break;
+						}
+					}
+				}
+			}*/
+		}
+		else if (Comedy *comedy = dynamic_cast<Comedy*>(newMovie))
+		{
+
+		}
+
+		curr = curr->nextGenre;
 
 	}
 
