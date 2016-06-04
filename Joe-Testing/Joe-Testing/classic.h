@@ -12,10 +12,10 @@ public:
 	//Classic();
 	Classic(string, string, int, string, string, int);
 	//~Classic();
-	virtual bool operator==(const Movie &) const ;
-	//bool operator!=(const Movie &);
-	//bool operator<(const Movie &);
-	//bool operator>(const Movie &);
+	virtual bool operator==(const Movie &) const;
+	virtual bool operator!=(const Movie &) const;
+	virtual bool operator<(const Movie &) const;
+	virtual bool operator>(const Movie &) const;
 
 	const string getActor() const;      //gets the actor string for classics
 	const int getDay() const;         //gets the month int for classics
