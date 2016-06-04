@@ -9,13 +9,13 @@ class Movie
 {
 public:
     Movie();
-    virtual ~Movie();                   //virtual destructor
+    //virtual ~Movie();                   //virtual destructor
 
     //pure virtual compare functions, must be implemented per inheriting class
-    virtual bool operator==(const Movie &) = 0;
-    virtual bool operator!=(const Movie &) = 0;
-    virtual bool operator<(const Movie &) = 0;
-    virtual bool operator>(const Movie &) = 0;
+    virtual bool operator==(const Movie &) const = 0;
+    //virtual bool operator!=(const Movie &) = 0;
+    //virtual bool operator<(const Movie &) = 0;
+    //virtual bool operator>(const Movie &) = 0;
 
     //functions to access the different data values per Movie object
     const string getDirector() const;
