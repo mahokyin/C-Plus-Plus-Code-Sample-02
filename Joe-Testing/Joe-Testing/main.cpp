@@ -52,6 +52,7 @@ bool readCustomerData(ifstream &input) {
 	return true;
 }
 
+// Not sure yet.
 void clearCustomer() {
 	for (int i = 0; i < 10; i++) {
 		CustomerHashNode *currentNode = customerHashTable[i];
@@ -63,12 +64,14 @@ void clearCustomer() {
 	}
 }
 
+// Not sure yet;
 void clearCustomerTable() {
 	clearCustomer();
 	delete[] customerHashTable;
 }
 
 int main() {
+	/*
 	ifstream idTextFile("data4customers.txt");
 	readCustomerData(idTextFile);
 
@@ -82,6 +85,7 @@ int main() {
 		cout << endl;
 	}
 	clearCustomerTable();
+	*/
 	
 	system("pause");
 	return 0;
