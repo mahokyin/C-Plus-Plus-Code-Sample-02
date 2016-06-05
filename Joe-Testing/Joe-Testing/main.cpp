@@ -7,6 +7,7 @@
 #include "customer.h"
 #include "movie.h"
 #include "classic.h"
+#include "comedy.h"
 #include <time.h>
 using namespace std;
 
@@ -114,7 +115,7 @@ int hashMovieByObj(Movie *movie) {
 	if (Classic *obj = dynamic_cast<Classic*>(movie))
 		return 0;
 	// index 1---> Comedy
-	else if (Classic *obj = dynamic_cast<Classic*>(movie))
+	else if (Comedy *obj = dynamic_cast<Comedy*>(movie))
 		return 1;
 	// index 2----> Dramma
 	else return 2;
@@ -157,10 +158,10 @@ bool addClassic(Classic *newClassic, int stockAmount) {
 		if (*newClassic == *static_cast<Classic*>(currPtr->movie)) 
 		{
 			// With same char 
-			if (newClassic->getActor()[0] == static_cast<Classic*>(currPtr->movie)->getActor()[0]) {
+			if (toupper(newClassic->getActor()[0]) == toupper(static_cast<Classic*>(currPtr->movie)->getActor()[0])) {
 				insertMovieNode(newClassic, stockAmount, currPtr);
 				return true;
-			} else if (newClassic->getActor()[0] < static_cast<Classic*>(currPtr->movie)->getActor()[0]) {
+			} else if (toupper(newClassic->getActor()[0]) < toupper(static_cast<Classic*>(currPtr->movie)->getActor()[0])) {
 				// curr = head
 				if (currPtr->prev == NULL)
 					addFirstMovieNode(newClassic, stockAmount, 0, currPtr);
@@ -169,7 +170,14 @@ bool addClassic(Classic *newClassic, int stockAmount) {
 					insertMovieNode(newClassic, stockAmount, currPtr->prev);
 				return true;
 			}
-			else currPtr = currPtr->next;
+			else {
+				MovieHashNode *prevPtr = currPtr;
+				currPtr = currPtr->next;
+				if (currPtr == NULL) {
+					insertMovieNode(newClassic, stockAmount, prevPtr);
+					return true;
+				}
+			}
 		} 
 		else if (*newClassic > *static_cast<Classic*>(currPtr->movie)) 
 		{
@@ -194,7 +202,60 @@ bool addClassic(Classic *newClassic, int stockAmount) {
 	return false;
 }
 
-bool addMovie2(Movie *newMovie, int stockAmount) {
+bool addComedy(Comedy *newComedy, int stockAmount) {
+	MovieHashNode *currPtr = movieHashtable[1];
+	while (currPtr != NULL)
+	{
+		if (*newComedy == *static_cast<Comedy*>(currPtr->movie))
+		{
+			// With same char 
+			if (newComedy->getYear() == static_cast<Comedy*>(currPtr->movie)->getYear()) {
+				insertMovieNode(newComedy, stockAmount, currPtr);
+				return true;
+			}
+			else if (newComedy->getYear() < static_cast<Comedy*>(currPtr->movie)->getYear()) {
+				// curr = head
+				if (currPtr->prev == NULL)
+					addFirstMovieNode(newComedy, stockAmount, 1, currPtr);
+				else
+					// normal case
+					insertMovieNode(newComedy, stockAmount, currPtr->prev);
+				return true;
+			}
+			else 
+			{
+				MovieHashNode *prevPtr = currPtr;
+				currPtr = currPtr->next;
+				if (currPtr == NULL) {
+					insertMovieNode(newComedy, stockAmount, prevPtr);
+					return true;
+				}
+			}
+		}
+		else if (*newComedy > *static_cast<Comedy*>(currPtr->movie))
+		{
+			MovieHashNode *prevPtr = currPtr;
+			currPtr = currPtr->next;
+			if (currPtr == NULL) {
+				insertMovieNode(newComedy, stockAmount, prevPtr);
+				return true;
+			}
+		}
+		else if (*newComedy < *static_cast<Comedy*>(currPtr->movie))
+		{
+			// curr = head
+			if (currPtr->prev == NULL)
+				addFirstMovieNode(newComedy, stockAmount, 1, currPtr);
+			else
+				// normal case
+				insertMovieNode(newComedy, stockAmount, currPtr->prev);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool addMovie(Movie *newMovie, int stockAmount) {
 	int index = hashMovieByObj(newMovie);
 	if (movieHashtable[index] == NULL) {
 		MovieHashNode *head = new MovieHashNode;
@@ -208,131 +269,10 @@ bool addMovie2(Movie *newMovie, int stockAmount) {
 		if (index == 0)
 			return addClassic(static_cast<Classic*>(newMovie), stockAmount);
 		else if (index == 1)
-			return addClassic(static_cast<Classic*>(newMovie), stockAmount);
+			return addComedy(static_cast<Comedy*>(newMovie), stockAmount);
 		else
 			return addClassic(static_cast<Classic*>(newMovie), stockAmount);
 	}
-}
-
-void addMovie(Movie *newMovie, int stockAmount) {
-	movieHead *curr = head;
-	while (curr->nextGenre != NULL)
-	{
-		if (Classic *classic = dynamic_cast<Classic*>(newMovie))
-		{
-			if (curr->genre == "classic")
-			{
-
-				if (curr->first == NULL)
-				{
-					curr->first = new movieNode;
-					curr->first->maxStock = stockAmount;
-					curr->first->stock = stockAmount;
-					curr->first->next = NULL;
-					curr->first->prev = NULL;
-					curr->first->m = classic;
-				}
-				else
-				{
-
-					movieNode *currMovieNode = curr->first;
-					Classic *currClassic = dynamic_cast<Classic*>(currMovieNode->m);	
-
-					while (currMovieNode != NULL)
-					{
-
-						if (currClassic->getDay() == classic->getDay())
-						{
-							if (classic->getActor()[0] == currClassic->getActor()[0])
-							{
-								//prevMovieNode = currMovieNode;
-								//prevC = dynamic_cast<Classic*>(currMovieNode->m);
-								currMovieNode = currMovieNode->next;
-								if (currMovieNode == NULL)
-								{
-									/*prevMovieNode->next = new movieNode;
-									prevMovieNode->next->m = classic;
-									prevMovieNode->next->maxStock = stockAmount;
-									prevMovieNode->next->stock = stockAmount;
-									prevMovieNode->next->next = NULL;
-									break;*/
-								}
-							}
-							else if (classic->getActor()[0] < currClassic->getActor()[0])
-							{
-								//prevMovieNode->next = new movieNode;
-								/*prevMovieNode->next->m = classic;
-								prevMovieNode->next->maxStock = stockAmount;
-								prevMovieNode->next->stock = stockAmount;
-								prevMovieNode->next->next = currMovieNode;
-								break;*/
-							}
-							else if (classic->getActor()[0] > currClassic->getActor()[0])
-							{
-								//prevMovieNode = currMovieNode;
-								//prevC = dynamic_cast<Classic*>(currMovieNode->m);
-								currMovieNode = currMovieNode->next;
-							}
-						}
-						else if (classic->getDay() > currClassic->getDay())
-						{
-							movieNode *prevPtr = currMovieNode;
-							currMovieNode = currMovieNode->next;
-							if (currMovieNode != NULL)
-								currClassic = dynamic_cast<Classic*>(currMovieNode->m);
-							if (currMovieNode == NULL)
-							{
-								prevPtr->next = new movieNode;
-								prevPtr->next->m = classic;
-								prevPtr->next->maxStock = stockAmount;
-								prevPtr->next->stock = stockAmount;
-								prevPtr->next->next = NULL;
-								prevPtr->next->prev = prevPtr;
-								break;
-							}
-						}
-						else if (classic->getDay() < currClassic->getDay())
-						{
-							movieNode *newNode = new movieNode;
-							newNode->m = classic;
-							newNode->maxStock = newNode->stock = stockAmount;
-							
-							// curr = head
-							if (currMovieNode->prev == NULL) {
-								newNode->prev = NULL;
-								newNode->next = currMovieNode;
-								currMovieNode->prev = newNode;
-								curr->first = newNode;
-							}
-							else { // normal case
-								movieNode *prevPtr = currMovieNode->prev;
-								prevPtr->next = newNode;
-								newNode->prev = prevPtr;
-								newNode->next = currMovieNode;
-								currMovieNode->prev = newNode;
-							}
-							break;
-						}
-					}
-				}
-			}
-		}
-		
-		curr = curr->nextGenre;
-	}
-}
-
-void constructor() {
-	// Testing of the MovieStore Constructor
-	head = new movieHead;
-	head->nextGenre = new movieHead;
-	head->nextGenre->genre = "classic";
-	head->nextGenre->nextGenre = new movieHead;
-	head->nextGenre->nextGenre->genre = "comedy";
-	head->nextGenre->nextGenre->nextGenre = new movieHead;
-	head->nextGenre->nextGenre->nextGenre->genre = "drama";
-	head->nextGenre->nextGenre->nextGenre->nextGenre = NULL;
-	//
 }
 
 int main() {
@@ -404,31 +344,39 @@ int main() {
 		int randNum = rand() % 9000 + 1000;
 		Movie *movie = new Classic("Joe", "Lenovo", randNum, "classic", "Andrey", randNum);
 		cout << randNum << " ";
-		if (addMovie2(movie, 20)) cout << "T ";
+		if (addMovie(movie, 20)) cout << "T ";
 		else cout << "F ";
 		movie = new Classic("Joe", "Lenovo", 1000, "classic", "K", 1000);
-		addMovie2(movie, 20);
+		addMovie(movie, 20);
 		//cout << addMovie2(movie, 20);
 	}
 	cout << endl;
 
-	Movie *movie = new Classic("Joe", "Lenovo", 1000, "classic", "Z", 1000);
-	addMovie2(movie, 20);
-	movie = new Classic("Joe", "Lenovo", 1000, "classic", "Z", 1000);
-	addMovie2(movie, 20);
-	movie = new Classic("Joe", "Lenovo", 1000, "classic", "K", 1000);
-	addMovie2(movie, 20);
-	movie = new Classic("Joe", "Lenovo", 1000, "classic", "F", 1000);
-	addMovie2(movie, 20);
-	movie = new Classic("Joe", "Lenovo", 1000, "classic", "R", 1000);
-	addMovie2(movie, 20);
-	movie = new Classic("Joe", "Lenovo", 1000, "classic", "E", 1000);
-	addMovie2(movie, 20);
+	Movie *movie = new Comedy("Joe", "a", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "REWT", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "GDHd", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "WTRWEt", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "SFGs", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "SFGS", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "WTRWEt", 2000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "WTRWEt", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "WTRWEt", 4000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Comedy("Joe", "WTRWEt", 3000, "t");
+	cout << addMovie(movie, 20);
 	cout << endl;
 
-	for (MovieHashNode *ptr = movieHashtable[0]; ptr != NULL; ptr = ptr->next) {
-		cout << static_cast<Classic*>(ptr->movie)->getYear() <<
-			"  " << static_cast<Classic*>(ptr->movie)->getActor() << " " << endl;
+	for (MovieHashNode *ptr = movieHashtable[1]; ptr != NULL; ptr = ptr->next) {
+		cout << static_cast<Comedy*>(ptr->movie)->getTitle() <<
+			"  " << static_cast<Comedy*>(ptr->movie)->getYear() << " " << endl;
 	}
 	
 	

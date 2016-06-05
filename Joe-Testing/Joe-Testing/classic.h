@@ -9,7 +9,7 @@ using namespace std;
 class Classic :public Movie
 {
 public:
-	//Classic();
+	Classic();
 	Classic(string, string, int, string, string, int);
 	//~Classic();
 	virtual bool operator==(const Movie &) const;

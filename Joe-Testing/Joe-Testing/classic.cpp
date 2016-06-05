@@ -4,6 +4,11 @@
 
 using namespace std;
 
+Classic::Classic()
+{
+	// Empty Consstructor
+}
+
 Classic::Classic(string d, string t, int y, string ty, string a, int da)
 {
 	director = d;                    //data for holding information about...
