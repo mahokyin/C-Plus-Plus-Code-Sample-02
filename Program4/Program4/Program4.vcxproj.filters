@@ -14,4 +14,44 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="moviestore.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="classic.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="comedy.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="customer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drama.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="movie.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="classic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="comedy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="customer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drama.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="movie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="moviestore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

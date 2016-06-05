@@ -4,15 +4,16 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <time.h>
 #include "customer.h"
 #include "movie.h"
 #include "classic.h"
 #include "comedy.h"
-#include <time.h>
+#include "drama.h"
 using namespace std;
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 // Structure of hashtable and hashNode for Customer object
 struct CustomerHashNode {
 	Customer customer;
@@ -78,26 +79,6 @@ void clearCustomerTable() {
 	clearCustomer();
 	delete[] customerHashtable;
 }
-
-///////////////////////////////////////////////Start with moive part//////////////////////////////////////////////////////////////
-
-struct movieNode { //struct to store the information about the movies
-	Movie *m;
-	int stock;
-	int maxStock;
-	movieNode *next = NULL;
-	movieNode *prev = NULL;
-};
-struct movieHead {  // struct to store the information about the different genres, and
-					//holds the head of the movieNode of that genre.
-	string genre;
-	movieHead *nextGenre = NULL; //down pointer
-	movieNode *first = NULL;	  //right pointer
-};
-
-movieHead *head = NULL; // holds all the information about the movies in the store. can be viewed as
-						// linked list of linked lists.
-////////////////////////////////////////////////////////////////////////////
 
 
 // Structure of hashtable and hashNode for Movie object
@@ -255,6 +236,59 @@ bool addComedy(Comedy *newComedy, int stockAmount) {
 	return false;
 }
 
+bool addDrama(Drama *newDrama, int stockAmount) {
+	MovieHashNode *currPtr = movieHashtable[2];
+	while (currPtr != NULL)
+	{
+		if (*newDrama == *static_cast<Drama*>(currPtr->movie))
+		{
+			// With same char 
+			if (newDrama->getTitle() == static_cast<Drama*>(currPtr->movie)->getTitle()) {
+				insertMovieNode(newDrama, stockAmount, currPtr);
+				return true;
+			}
+			else if (newDrama->getTitle() < static_cast<Drama*>(currPtr->movie)->getTitle()) {
+				// curr = head
+				if (currPtr->prev == NULL)
+					addFirstMovieNode(newDrama, stockAmount, 2, currPtr);
+				else
+					// normal case
+					insertMovieNode(newDrama, stockAmount, currPtr->prev);
+				return true;
+			}
+			else
+			{
+				MovieHashNode *prevPtr = currPtr;
+				currPtr = currPtr->next;
+				if (currPtr == NULL) {
+					insertMovieNode(newDrama, stockAmount, prevPtr);
+					return true;
+				}
+			}
+		}
+		else if (*newDrama > *static_cast<Drama*>(currPtr->movie))
+		{
+			MovieHashNode *prevPtr = currPtr;
+			currPtr = currPtr->next;
+			if (currPtr == NULL) {
+				insertMovieNode(newDrama, stockAmount, prevPtr);
+				return true;
+			}
+		}
+		else if (*newDrama < *static_cast<Drama*>(currPtr->movie))
+		{
+			// curr = head
+			if (currPtr->prev == NULL)
+				addFirstMovieNode(newDrama, stockAmount, 2, currPtr);
+			else
+				// normal case
+				insertMovieNode(newDrama, stockAmount, currPtr->prev);
+			return true;
+		}
+	}
+	return false;
+}
+
 bool addMovie(Movie *newMovie, int stockAmount) {
 	int index = hashMovieByObj(newMovie);
 	if (movieHashtable[index] == NULL) {
@@ -271,7 +305,7 @@ bool addMovie(Movie *newMovie, int stockAmount) {
 		else if (index == 1)
 			return addComedy(static_cast<Comedy*>(newMovie), stockAmount);
 		else
-			return addClassic(static_cast<Classic*>(newMovie), stockAmount);
+			return addDrama(static_cast<Drama*>(newMovie), stockAmount);
 	}
 }
 
@@ -352,7 +386,7 @@ int main() {
 	}
 	cout << endl;
 
-	Movie *movie = new Comedy("Joe", "a", 1000, "t");
+	/*Movie *movie = new Comedy("Joe", "a", 1000, "t");
 	cout << addMovie(movie, 20);
 	movie = new Comedy("Joe", "REWT", 1000, "t");
 	cout << addMovie(movie, 20);
@@ -372,11 +406,39 @@ int main() {
 	cout << addMovie(movie, 20);
 	movie = new Comedy("Joe", "WTRWEt", 3000, "t");
 	cout << addMovie(movie, 20);
+	cout << endl;*/
+
+	Movie *movie = new Drama("Joe", "a", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("GF", "REWT", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("VD", "GDHd", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("SGF", "WTRWEt", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("AW", "SFGs", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("HL", "SFGS", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("OO", "GH", 2000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("OO", "AB", 2000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("OO", "PO", 2000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("OO", "ZC", 2000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("FG", "WTRWEt", 1000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("Q", "WTRWEt", 4000, "t");
+	cout << addMovie(movie, 20);
+	movie = new Drama("J", "WTRWEt", 3000, "t");
+	cout << addMovie(movie, 20);
 	cout << endl;
 
-	for (MovieHashNode *ptr = movieHashtable[1]; ptr != NULL; ptr = ptr->next) {
-		cout << static_cast<Comedy*>(ptr->movie)->getTitle() <<
-			"  " << static_cast<Comedy*>(ptr->movie)->getYear() << " " << endl;
+	for (MovieHashNode *ptr = movieHashtable[2]; ptr != NULL; ptr = ptr->next) {
+		cout << static_cast<Drama*>(ptr->movie)->getDirector() <<
+			"  " << static_cast<Drama*>(ptr->movie)->getTitle() << " " << endl;
 	}
 	
 	
