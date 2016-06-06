@@ -1,7 +1,7 @@
-#include "transaction.h"
+//#include "transaction.h"
 #include "history.h"
-#include "customer.h"
-#include "moviestore.h"
+//#include "customer.h"
+//#include "moviestore.h"
 #include <iostream>
 
 using namespace std;

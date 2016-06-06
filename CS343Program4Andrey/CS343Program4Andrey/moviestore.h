@@ -10,6 +10,11 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+//#include "transaction.h"
+//#include "borrow.h"
+//#include "inventory.h"
+//#include "return.h"
+//#include "history.h"
 
 using namespace std;
 
@@ -60,6 +65,7 @@ private:
 	bool addDrama(Drama *newDrama, int stockAmount);
 	void addFirstMovieNode(Movie *movie, int stockAmount, int index, MovieHashNode *oldHead);
 	void insertMovieNode(Movie *movie, int stockAmount, MovieHashNode *prev);
+	bool canBorrow(int id, string movieType, char action, string movieName, string directorName, int month, int year);
 
 };
 

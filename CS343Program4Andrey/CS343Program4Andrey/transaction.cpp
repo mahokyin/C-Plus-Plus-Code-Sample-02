@@ -24,4 +24,6 @@ Transaction *Transaction::genTrans(string singleLine)
 		return new Borrow;
 	else if (singleLine[0] == 'R')
 		return new Return;
+	//Transaction *T;
+	//return T;
 }

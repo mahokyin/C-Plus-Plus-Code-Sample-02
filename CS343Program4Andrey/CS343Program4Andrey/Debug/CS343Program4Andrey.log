@@ -1,49 +1,28 @@
-﻿Build started 6/5/2016 10:57:55 PM.
+﻿Build started 6/5/2016 11:31:12 PM.
      1>Project "C:\Users\Dre\Documents\C-Plus-Plus-Code-Sample-02\CS343Program4Andrey\CS343Program4Andrey\CS343Program4Andrey.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt borrow.cpp comedy.cpp history.cpp inventory.cpp return.cpp transaction.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp transaction.cpp
          transaction.cpp
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4): error C2011: 'Transaction' : 'class' type redefinition
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
+     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(9): error C2011: 'Transaction' : 'class' type redefinition
+                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(9) : see declaration of 'Transaction'
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\inventory.h(6): error C2504: 'Transaction' : base class undefined
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\borrow.h(6): error C2504: 'Transaction' : base class undefined
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\return.h(6): error C2504: 'Transaction' : base class undefined
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\history.h(6): error C2504: 'Transaction' : base class undefined
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(12): error C2027: use of undefined type 'Transaction'
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
+                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(9) : see declaration of 'Transaction'
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(12): error C2059: syntax error : ')'
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(13): error C2143: syntax error : missing ';' before '{'
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(13): error C2447: '{' : missing function header (old-style formal list?)
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(17): error C2027: use of undefined type 'Transaction'
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(20): error C2440: 'return' : cannot convert from 'Inventory *' to 'Transaction *'
-                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(22): error C2440: 'return' : cannot convert from 'History *' to 'Transaction *'
-                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(24): error C2440: 'return' : cannot convert from 'Borrow *' to 'Transaction *'
-                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.cpp(26): error C2440: 'return' : cannot convert from 'Return *' to 'Transaction *'
-                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-         return.cpp
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4): error C2011: 'Transaction' : 'class' type redefinition
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\return.h(6): error C2504: 'Transaction' : base class undefined
-         inventory.cpp
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4): error C2011: 'Transaction' : 'class' type redefinition
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\inventory.h(6): error C2504: 'Transaction' : base class undefined
-         history.cpp
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4): error C2011: 'Transaction' : 'class' type redefinition
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\history.h(6): error C2504: 'Transaction' : base class undefined
-         comedy.cpp
-         borrow.cpp
-     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4): error C2011: 'Transaction' : 'class' type redefinition
-                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(4) : see declaration of 'Transaction'
+                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(9) : see declaration of 'Transaction'
+         main.cpp
+     1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(9): error C2011: 'Transaction' : 'class' type redefinition
+                 c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\transaction.h(9) : see declaration of 'Transaction'
      1>c:\users\dre\documents\c-plus-plus-code-sample-02\cs343program4andrey\cs343program4andrey\borrow.h(6): error C2504: 'Transaction' : base class undefined
          Generating Code...
      1>Done Building Project "C:\Users\Dre\Documents\C-Plus-Plus-Code-Sample-02\CS343Program4Andrey\CS343Program4Andrey\CS343Program4Andrey.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:01.66
+Time Elapsed 00:00:00.58
