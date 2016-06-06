@@ -1,5 +1,21 @@
 #include "moviestore.h"
+#include<iomanip>
 using namespace std;
+
+MovieStore::MovieStore() {
+
+}
+
+MovieStore::MovieStore(ifstream &inputCustomer, ifstream &inputMovie) {
+	for (int i = 0; i < 10; i++)
+		customerHashtable[i] = NULL;
+	for (int i = 0; i < 3; i++)
+		movieHashtable[i] = NULL;
+	if(readCustomerData(inputCustomer)) cout << "Succesful read customer data !" << endl;
+	else cout << "Failure to read data !" << endl;
+	if (readMovieData(inputMovie)) cout << "Succesful read movie data !" << endl;
+	else cout << "Failure to read data !" << endl;
+}
 
 int MovieStore::hashCustomerID(int id) {
 	string strID = to_string(id);
@@ -231,6 +247,7 @@ void MovieStore::insertMovieNode(Movie *movie, int stockAmount, MovieHashNode *p
 	else {
 		prev->next = newNode;
 		newNode->prev = prev;
+		newNode->next = NULL;
 	}
 }
 
@@ -247,7 +264,6 @@ void MovieStore::addFirstMovieNode(Movie *movie, int stockAmount, int index, Mov
 
 bool MovieStore::readCustomerData(ifstream &input) {
 	string str;
-
 	if (!input) return false;
 	// Need to add exception to handle the error if not found the file.
 
@@ -258,4 +274,62 @@ bool MovieStore::readCustomerData(ifstream &input) {
 		addCustomer(customer);
 	}
 	return true;
+}
+
+bool MovieStore::readMovieData(ifstream &input) {
+	string str;
+	if (!input) return false;
+	// Need to add exception to handle the error if not found the file.
+
+	while (getline(input, str, ',')) {
+		string type;
+		istringstream(str) >> type;
+		if (type == "F" || type == "D") {
+			string stock, director, title, year;
+			getline(input, stock, ',');
+			getline(input, director, ',');
+			getline(input, title, ',');
+			getline(input, year, '\n');
+			if (type == "F") cout << addMovie(new Comedy(director, title, stoi(year), "F"), stoi(stock));
+			else cout << addMovie(new Drama(director, title, stoi(year), "D"), stoi(stock));
+		}
+		else if (type == "C") {
+			string stock, director, title, year, actorFirstname, actorLastname, day;
+			getline(input, stock, ',');
+			getline(input, director, ',');
+			getline(input, title, ',');
+			getline(input, str);
+			istringstream(str) >> actorFirstname >> actorLastname >> day >> year;
+			cout << addMovie(new Classic(director, title, stoi(year), "F", actorFirstname + " " + actorLastname, stoi(day)), stoi(stock));
+		}
+		else getline(input, str, '\n');
+	}
+	return true;
+}
+
+void MovieStore::displayAllCustomer() {
+	cout << "ID" << setw(23) << "Frist name" << setw(23) << "Last name \n";
+	CustomerHashNode *nodePtr;
+	for (int i = 0; i < 10; i++) {
+		nodePtr = customerHashtable[i];
+		while (nodePtr != NULL) {
+			cout << nodePtr->customer.customerID << setw(20) << nodePtr->customer.firstName << setw(20) << nodePtr->customer.lastName << endl;
+			nodePtr = nodePtr->next;
+		}
+	}
+	cout << endl;
+}
+
+void MovieStore::displayAllMovie() {
+	cout << "Stock" << setw(23) << "Director" << setw(23) << "Title" << setw(23) << "Year \n";
+	MovieHashNode *nodePtr;
+	for (int i = 0; i < 3; i++) {
+		nodePtr = movieHashtable[i];
+		while (nodePtr != NULL) {
+			cout << nodePtr->stock << setw(20) << nodePtr->movie->getDirector() 
+				<< setw(20) << nodePtr->movie->getTitle() << setw(20) << nodePtr->movie->getYear() << endl;
+			nodePtr = nodePtr->next;
+		}
+	}
+	cout << endl;
 }

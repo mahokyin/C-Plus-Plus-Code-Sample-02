@@ -53,5 +53,19 @@
     <ClCompile Include="moviestore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data4commands.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="data4customers.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="data4movies.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
