@@ -11,5 +11,5 @@ Inventory::Inventory()
 
 void Inventory::execute(MovieStore M, string singleLine)
 {
-
+	M.displayAllMovie();
 }

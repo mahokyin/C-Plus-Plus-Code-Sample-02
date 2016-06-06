@@ -31,7 +31,7 @@ public:
 	//using the line taken from the text document.
 	void displayCustomerHistory(int customerID); //takes the line that asks to print the information
 	//of the transactions of a user, and prints it.
-	void displayInventory(string line); //takes the line that asks to print the inventory
+	void displayInventory(string line); //takes the line that asks to print the inventory /////////////////////////dont think we need, same as display all movie???
 	//of the movie store, and prints it.
 	void displayAllCustomer();
 	void displayAllMovie();

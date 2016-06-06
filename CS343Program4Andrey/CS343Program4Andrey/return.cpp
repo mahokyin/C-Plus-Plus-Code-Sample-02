@@ -11,5 +11,5 @@ Return::Return()
 
 void Return::execute(MovieStore M, string singleLine)
 {
-
+	M.returnMovie(singleLine);
 }
