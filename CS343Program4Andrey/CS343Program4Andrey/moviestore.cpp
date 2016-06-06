@@ -361,14 +361,13 @@ void MovieStore::displayCustomerHistory(int customerID)
 {
 	cout << "Customer ID: " << customerID << " ";
 
+	//Convert Id to hash id
 	customerID = hashCustomerID(customerID);
 
 	cout << customerHashtable[customerID]->customer.firstName << " " << customerHashtable[customerID]->customer.lastName << endl;
 
-	while (customerHashtable[customerID]->next != NULL)
-	{
-		//cout << 
-	}
+	//Display the customers history, implimented in customer classF
+	customerHashtable[customerID]->customer.displayHistory();
 }
 
 bool MovieStore::borrowMovie(string line)
@@ -382,7 +381,7 @@ bool MovieStore::borrowMovie(string line)
 	int movieMonth;
 	int counter = 11;
 	int movieNameCounter = 0;
-	char action = 'b'; //For borrow, will be 'r' for return, used for helper function canBorrow
+	string action = "b"; //For borrow, will be 'r' for return, used for helper function canBorrow
 
 	//Get the customer id
 	customerID = (line[2] - '0') * 1000;
@@ -421,15 +420,18 @@ bool MovieStore::borrowMovie(string line)
 				//Check if there is still stock
 				if (movieHashtable[1]->stock > 0)
 				{
-					if (canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
 					{
 						//If there is decriment it
 						movieHashtable[1]->stock -= 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear); /////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
 						return true;
 					}
 					else
 					{
-						cout << "You are currently borrowing this movie already" << endl;
+						cout << "You are currently borrowing this movie" << endl;
 						return false;
 					}
 				}
@@ -471,9 +473,20 @@ bool MovieStore::borrowMovie(string line)
 				//Check if there is still stock
 				if (movieHashtable[2]->stock > 0)
 				{
-					//If there is decriment it
-					movieHashtable[2]->stock -= 1;
-					return true;
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[2]->stock -= 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear);/////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You are currently borrowing this movie" << endl;
+						return false;
+					}
 				}
 				else
 				{
@@ -515,9 +528,20 @@ bool MovieStore::borrowMovie(string line)
 				//Check if there is still stock
 				if (movieHashtable[0]->stock > 0)
 				{
-					//If there is decriment it
-					movieHashtable[0]->stock -= 1;
-					return true;
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[0]->stock -= 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear);/////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You are currently borrowing this movie" << endl;
+						return false;
+					}
 				}
 				else
 				{
@@ -543,10 +567,7 @@ bool MovieStore::borrowMovie(string line)
 	//cout << "customerID: " << customerID << " media type: " << mediaType << " movie type: " << movieType << " Movie name: " << movieName << " movie year: " << movieYear << endl;
 }
 
-bool MovieStore::canBorrow(int id, string movieType, char action, string movieName, string directorName, int month, int year)
-{
 
-}
 
 
 

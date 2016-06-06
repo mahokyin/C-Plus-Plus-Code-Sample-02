@@ -65,8 +65,6 @@ private:
 	bool addDrama(Drama *newDrama, int stockAmount);
 	void addFirstMovieNode(Movie *movie, int stockAmount, int index, MovieHashNode *oldHead);
 	void insertMovieNode(Movie *movie, int stockAmount, MovieHashNode *prev);
-	bool canBorrow(int id, string movieType, char action, string movieName, string directorName, int month, int year);
-
 };
 
 #endif

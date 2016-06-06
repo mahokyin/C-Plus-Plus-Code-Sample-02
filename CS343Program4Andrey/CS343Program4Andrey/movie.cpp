@@ -23,3 +23,8 @@ const int Movie::getYear() const
 {
 	return year;
 }
+
+const string Movie::getType() const
+{
+	return type;
+}
