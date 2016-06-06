@@ -321,6 +321,7 @@ void MovieStore::displayAllCustomer() {
 }
 
 void MovieStore::displayAllMovie() {
+	cout << "Display all comedy movies" << endl;
 	cout << "Stock" << setw(23) << "Director" << setw(23) << "Title" << setw(23) << "Year \n";
 	MovieHashNode *nodePtr;
 	for (int i = 0; i < 3; i++) {
