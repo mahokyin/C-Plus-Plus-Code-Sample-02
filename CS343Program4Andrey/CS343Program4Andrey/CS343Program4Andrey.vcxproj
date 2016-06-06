@@ -78,19 +78,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="borrow.cpp" />
     <ClCompile Include="classic.cpp" />
     <ClCompile Include="comedy.cpp" />
     <ClCompile Include="drama.cpp" />
+    <ClCompile Include="history.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="movie.cpp" />
     <ClCompile Include="moviestore.cpp" />
+    <ClCompile Include="return.cpp" />
+    <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="borrow.h" />
     <ClInclude Include="classic.h" />
     <ClInclude Include="comedy.h" />
     <ClInclude Include="drama.h" />
+    <ClInclude Include="history.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="movie.h" />
     <ClInclude Include="moviestore.h" />
+    <ClInclude Include="return.h" />
+    <ClInclude Include="transaction.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

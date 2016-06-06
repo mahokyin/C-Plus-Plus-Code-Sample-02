@@ -12,8 +12,10 @@ Comedy::Comedy(string d, string t , int y, string ty)
 	type = ty;
 }
 
-bool Comedy::operator==(const Comedy &rhs) const
+bool Comedy::operator==(const Movie &rhs) const
 {
+	Comedy rhs = dynamic_cast<Classic*>(rhs);
+
 	if (rhs.getTitle() != this->getTitle()) return false;
 	if (rhs.getDirector() != this->getDirector()) return false;
 	if (rhs.getYear() != this->getYear()) return false;
@@ -21,19 +23,19 @@ bool Comedy::operator==(const Comedy &rhs) const
 	return true;
 }
 
-bool Comedy::operator!=(const Comedy &rhs) const
+bool Comedy::operator!=(const Movie &rhs) const
 {
 	return !(rhs == *this);
 }
 
-bool Comedy::operator<(const Comedy &rhs) const
+bool Comedy::operator<(const Movie &rhs) const
 {
 	if ((rhs.getTitle())[0] < (this->getTitle())[0]) return false;
 
 	return true;
 }
 
-bool Comedy::operator>(const Comedy &rhs) const
+bool Comedy::operator>(const Movie &rhs) const
 {
 	return (rhs < *this);
 }

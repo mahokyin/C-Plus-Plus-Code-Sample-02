@@ -33,6 +33,21 @@
     <ClCompile Include="classic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="transaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="return.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="borrow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="history.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="movie.h">
@@ -48,6 +63,21 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="drama.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transaction.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="return.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="borrow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
