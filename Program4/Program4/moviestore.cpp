@@ -132,7 +132,7 @@ bool MovieStore::addComedy(Comedy *newComedy, int stockAmount) {
 	{
 		if (*newComedy == *static_cast<Comedy*>(currPtr->movie))
 		{
-			// With same char 
+			// Then compare the year
 			if (newComedy->getYear() == static_cast<Comedy*>(currPtr->movie)->getYear()) {
 				insertMovieNode(newComedy, stockAmount, currPtr);
 				return true;
@@ -326,8 +326,15 @@ void MovieStore::displayAllMovie() {
 	for (int i = 0; i < 3; i++) {
 		nodePtr = movieHashtable[i];
 		while (nodePtr != NULL) {
-			cout << nodePtr->stock << setw(20) << nodePtr->movie->getDirector() 
-				<< setw(20) << nodePtr->movie->getTitle() << setw(20) << nodePtr->movie->getYear() << endl;
+			if (!dynamic_cast<const Classic*>(nodePtr->movie)) {
+				cout << nodePtr->stock << setw(20) << nodePtr->movie->getDirector()
+					<< setw(20) << nodePtr->movie->getTitle() << setw(20) << nodePtr->movie->getYear() << endl;
+			}
+			else {
+				Classic *ptr = static_cast<Classic*>(nodePtr->movie);
+				cout << nodePtr->stock << setw(20) << nodePtr->movie->getDirector()
+					<< setw(20) << nodePtr->movie->getTitle() << setw(20) << setw(20) << ptr->getActor() << setw(20) << ptr->getDay() << setw(10) << ptr->getYear() << endl;
+			}
 			nodePtr = nodePtr->next;
 		}
 	}

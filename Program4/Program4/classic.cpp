@@ -32,12 +32,11 @@ const int Classic::getDay() const
 bool Classic::operator==(const Movie &rhs) const
 {
 	const Classic *rhsPtr = dynamic_cast<const Classic*>(&rhs);
-	/*if (this->director != rhsPtr->director) return false;
-	if (this->title != rhsPtr->title) return false;
-	if (this->year != rhsPtr->year) return false;
-	if (this->type != rhsPtr->type) return false;
-	if (this->actor != rhsPtr->actor) return false;*/
-	if (this->day != rhsPtr->day) return false;
+	if (this->year != rhsPtr->day) return false;
+	else {
+		if (this->day == rhsPtr->day) return true;
+		else return false;
+	}
 	return true;
 }
 
@@ -51,11 +50,17 @@ bool Classic::operator!=(const Movie &rhs) const
 bool Classic::operator>(const Movie &rhs) const
 {
 	const Classic *rhsPtr = dynamic_cast<const Classic*>(&rhs);
-	return (this->day > rhsPtr->day);
+	if (this->year > rhsPtr->year) return true;
+	else if (this->year < rhsPtr->year) return false;
+	else {
+		if (this->day > rhsPtr->day) return true;
+		else return false;
+	}
+	
 }
 
 bool Classic::operator<(const Movie &rhs) const
 {
 	const Classic *rhsPtr = dynamic_cast<const Classic*>(&rhs);
-	return (this->day < rhsPtr->day);
+	return !(*this > *rhsPtr);
 }
