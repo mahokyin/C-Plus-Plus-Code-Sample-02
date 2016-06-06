@@ -81,6 +81,7 @@
     <ClCompile Include="borrow.cpp" />
     <ClCompile Include="classic.cpp" />
     <ClCompile Include="comedy.cpp" />
+    <ClCompile Include="customer.cpp" />
     <ClCompile Include="drama.cpp" />
     <ClCompile Include="history.cpp" />
     <ClCompile Include="inventory.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="borrow.h" />
     <ClInclude Include="classic.h" />
     <ClInclude Include="comedy.h" />
+    <ClInclude Include="customer.h" />
     <ClInclude Include="drama.h" />
     <ClInclude Include="history.h" />
     <ClInclude Include="inventory.h" />

@@ -11,5 +11,5 @@ Borrow::Borrow()
 
 void Borrow::execute(MovieStore M, string singleLine)
 {
-
+	M.borrowMovie(singleLine);
 }

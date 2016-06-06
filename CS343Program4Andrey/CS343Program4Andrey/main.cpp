@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 #include "transaction.h"
+#include "moviestore.h"
 
 using namespace std;
 
@@ -75,15 +76,46 @@ int main()
 
 	string singleLine;
 	Transaction *T;
+	MovieStore M;
+	vector <Transaction*> typeHolder;
 
 	ifstream movieTextFile("data4commands.txt");
 	if (!movieTextFile) cout << "movie error" << endl;
 
 	while (!movieTextFile.eof())
 	{
-		getline(movieTextFile, singleLine);
-		T->genTrans(singleLine);
+		//Gets a line from the data file and saves it into variable "singleLine"
+		getline(movieTextFile, singleLine);	
+		//Calls function genTrans which will return an instance of one of the child classes of transaction
+		//depending on the first character in the file. With that instance, execute is called, which is an
+		//overloaded function and takes a type MovieClass, and the singleLine.
+
+		/*if (singleLine[0] == 'I' || singleLine[0] == 'H' || singleLine[0] == 'B' || singleLine[0] == 'R')
+		{
+			(T->genTrans(singleLine))->execute(M, singleLine);
+		}
+		else
+		{
+			cout << "invalid character input" << endl;
+		}*/
+
+		if (singleLine[0] == 'B')
+		{
+			(T->genTrans(singleLine))->execute(M, singleLine);
+		}
+		else
+		{
+			cout << "invalid character input" << endl;
+		}
+		
+
+		//typeHolder.push_back(T->genTrans(singleLine));
 	}
+
+	//for (int i = 0; i < typeHolder.size(); i++)
+	//{
+		//if (typeHolder[i] != Borrow )
+	//}
 
 
 

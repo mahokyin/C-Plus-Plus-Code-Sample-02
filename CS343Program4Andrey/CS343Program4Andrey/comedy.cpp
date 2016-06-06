@@ -11,7 +11,7 @@ Comedy::Comedy(string d, string t , int y, string ty)
 	year = y;
 	type = ty;
 }
-
+/*
 bool Comedy::operator==(const Movie &rhs) const
 {
 	Comedy rhs = dynamic_cast<Classic*>(rhs);
@@ -21,7 +21,7 @@ bool Comedy::operator==(const Movie &rhs) const
 	if (rhs.getYear() != this->getYear()) return false;
 
 	return true;
-}
+}*/
 
 bool Comedy::operator!=(const Movie &rhs) const
 {

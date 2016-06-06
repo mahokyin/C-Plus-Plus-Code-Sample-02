@@ -3,7 +3,13 @@
 #include <iostream>
 #include <string>
 #include "movie.h"
-//#include "customer.h"
+#include "customer.h"
+#include "classic.h"
+#include "comedy.h"
+#include "drama.h"
+#include <string>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -11,41 +17,49 @@ class MovieStore
 {
 public:
 	MovieStore(); //creates a new instance of MovieStore that is empty.
-	//void addCustomer(Customer newCustomer); //adds a new customer into the hash array of customers
+	MovieStore(ifstream &inputCustomer, ifstream &inputMovie); //creates a new instance of MovieStore that is empty.
+	bool readCustomerData(ifstream &input);
+	bool readMovieData(ifstream &input);
+	bool addCustomer(Customer &customer); //adds a new customer into the hash array of customers
 	//using the line taken from the text document.
-	void addMovie(Movie *Movie, int stock); //adds a new movie into the movie double linked lsisted
+	bool addMovie(Movie *newMovie, int stockAmount); //adds a new movie into the movie double linked lsisted
 	//using the line taken from the text document.
-	void displayCustomerHistory(string line); //takes the line that asks to print the information
+	void displayCustomerHistory(int customerID); //takes the line that asks to print the information
 	//of the transactions of a user, and prints it.
 	void displayInventory(string line); //takes the line that asks to print the inventory
 	//of the movie store, and prints it.
+	void displayAllCustomer();
+	void displayAllMovie();
 	bool returnMovie(string line); //takes the line that asks to return a movie to the store
 	//and returns it if the values are valid.
 	bool borrowMovie(string line); //takes the line that asks to borrow a movie from the store
 	//and borrows it if the values are valid.
 
-	void readMovieData(ifstream &input);
-
 private:
-	void expandCustomerArray(); //this method is used to expand the Customer array in case
-	//it is too full to add a new customer.
-	//Customers[] customers; // a hash array that contains the customers in the movie store.
-	void hashCustomerID(int id); // gets the hash value from the customer ID
-	struct movieNode { //struct to store the information about the movies
-		Movie *m;
+	// Structure of hashtable and hashNode for Customer object
+	struct CustomerHashNode {
+		Customer customer;
+		CustomerHashNode *next;
+	};
+	CustomerHashNode *customerHashtable[10];
+	int hashCustomerID(int id); // gets the hash value from the customer ID
+
+	struct MovieHashNode {
+		Movie *movie = NULL;
 		int stock;
 		int maxStock;
-		movieNode *next = NULL;
+		MovieHashNode *next = NULL;
+		MovieHashNode *prev = NULL;
 	};
-	struct movieHead {  // struct to store the information about the different genres, and
-		//holds the head of the movieNode of that genre.
-		string genre;
-		movieHead *nextGenre = NULL; //down pointer
-		movieNode *first = NULL;	  //right pointer
-	};
-	movieHead *head = NULL; // holds all the information about the movies in the store. can be viewed as
-	// linked list of linked lists.
+	MovieHashNode *movieHashtable[3];
+	int hashMovieByObj(Movie *movie); // Hash function for movie hashtable and to return the hash value
 
+	// Utility functions
+	bool addClassic(Classic *newClassic, int stockAmount);
+	bool addComedy(Comedy *newComedy, int stockAmount);
+	bool addDrama(Drama *newDrama, int stockAmount);
+	void addFirstMovieNode(Movie *movie, int stockAmount, int index, MovieHashNode *oldHead);
+	void insertMovieNode(Movie *movie, int stockAmount, MovieHashNode *prev);
 
 };
 
