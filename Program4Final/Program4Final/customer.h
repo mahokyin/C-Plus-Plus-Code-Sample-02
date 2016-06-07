@@ -26,11 +26,10 @@ public:
 
 	bool canBorrow(int id, string movieType, string action, string movieName, string directorName, int month, int year);
 	bool canReturn(int id, string movieType, string action, string movieName, string directorName, int month, int year);
-
 private:
 	struct HistoryData
 	{
-		string transactionType;  //Either borrowed or retuned
+		string transactionType = "";  //Either borrowed or retuned
 		Movie *movie = NULL;				 //All the info about the particular movie
 		HistoryData *next = NULL;
 	};

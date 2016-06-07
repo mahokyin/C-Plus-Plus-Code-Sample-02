@@ -8,7 +8,7 @@ class Borrow : public Transaction
 {
 public:
 	// Default constructor
-	Borrow();
+	Borrow(/*int cusID, string type, Movie movie*/);
 
 	// implementation for borrow's execution
 	virtual bool execute(Inventory, History, string);

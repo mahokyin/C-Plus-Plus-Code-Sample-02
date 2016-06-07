@@ -14,6 +14,8 @@ public:
 	// abstract function (Borrow and Return class have different process)
 	virtual bool execute(Inventory, History, string) = 0;
 	virtual void showError() = 0;
+
+
 };
 
 #endif

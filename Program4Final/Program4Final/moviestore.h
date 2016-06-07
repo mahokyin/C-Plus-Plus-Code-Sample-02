@@ -28,7 +28,7 @@ public:
 
         //using the line taken from the text document.
 
-	void displayAllCustomerHistory();
+	void displayAllCustomer();
 
 	void displayInventory();
 

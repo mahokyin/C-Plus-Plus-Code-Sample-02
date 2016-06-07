@@ -20,7 +20,7 @@ public:
 	virtual void setDirector(string movieDiretor) = 0;
 	virtual void setMovieTitle(string movieTitle) = 0;
 	virtual void setMovieYear(int movieYear) = 0;
-	virtual void setMovieGenre(string movieGenre) = 0;
+	//virtual void setMovieGenre(string movieGenre) = 0;
 
     //functions to access the different data values per Movie object
     const string getDirector() const;

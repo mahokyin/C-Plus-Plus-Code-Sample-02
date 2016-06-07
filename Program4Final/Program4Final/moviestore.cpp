@@ -28,7 +28,8 @@ bool MovieStore::readCustomerData(ifstream &input) {
 		string id; string lastname; string firstname;
 		istringstream(str) >> id >> lastname >> firstname;
 		int intId = 0; istringstream(id) >> intId;
-		Customer customer(intId, firstname, lastname);
+		Customer *customer = new Customer(intId, firstname, lastname);
+		//Customer customer(intId, firstname, lastname);
 		history.addCustomer(customer);
 	}
 	return true;
@@ -93,22 +94,120 @@ void MovieStore::readCommandData(ifstream &input) {
 		//overloaded function and takes a type MovieClass, and the singleLine.
 		if (singleLine[0] == 'I') {
 			inventory.displayInventory();
-			cout << "1" << endl;
 		} 
 		else if (singleLine[0] == 'H')
 		{
-			//History history;
-			//history.execute(*this, singleLine);
+			int custID = 0;
+			char temp;
+			istringstream(singleLine) >> temp >> custID;
+			history.displayCustomerHistory(custID);
 		}
-		else if (singleLine[0] == 'B')
+		else if (singleLine[0] == 'B' || singleLine[0] == 'R')
 		{
-			//Borrow borrow;
-			//borrow.execute(*this, singleLine);
-		}
-		else if (singleLine[0] == 'R')
-		{
-			//Return ret;
-			//ret.execute(*this, singleLine);
+			int	customerID = 0;
+			char mediaType;
+			string movieType = " ";
+			string movieName = " ";
+			string directorName;
+			int movieYearInt = 0;
+			int monthMovieInt = 0;
+			int counter = 11;
+			int movieNameCounter = 0;
+			string action(1, singleLine[0]); //For borrow, will be 'r' for return, used for helper function canBorrow
+
+			string actorFirst;
+			string actorLast;
+			string actorFull;
+
+			string temp;
+
+			//Get the customer id
+			customerID = (singleLine[2] - '0') * 1000;
+			customerID += (singleLine[3] - '0') * 100;
+			customerID += (singleLine[4] - '0') * 10;
+			customerID += singleLine[5] - '0';
+
+			mediaType = singleLine[7];
+
+			movieType[0] = singleLine[9];
+
+			if (movieType == "F")
+			{
+				//Get the name of the movie
+				while (singleLine[counter] != ',')
+				{
+					movieName = movieName + singleLine[counter];
+					counter++;
+				}
+
+				//Get the year of the movie
+				movieYearInt = (singleLine[counter + 2] - '0') * 1000;
+				movieYearInt += (singleLine[counter + 3] - '0') * 100;
+				movieYearInt += (singleLine[counter + 4] - '0') * 10;
+				movieYearInt += singleLine[counter + 5] - '0';
+
+				movieName = movieName.substr(1, movieName.size() - 1);
+				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << movieName << " " << movieYearInt << endl;
+			}
+			else if (movieType == "D")
+			{
+				counter = 11;
+
+				while (singleLine[counter] != ',')
+				{
+					directorName = directorName + singleLine[counter];
+					counter++;
+				}
+				counter += 2;
+
+				while (singleLine[counter] != ',')
+				{
+					movieName = movieName + singleLine[counter];
+					counter++;
+				}
+				movieName = movieName.substr(1, movieName.size() - 1);
+
+				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << directorName << " " << movieName << endl;
+			}
+			else if (movieType == "C")
+			{
+				counter = 11;
+				monthMovieInt = 0;
+
+				monthMovieInt = singleLine[counter] - '0';
+				counter++;
+
+				if (singleLine[counter] != ' ')
+				{
+					monthMovieInt = (monthMovieInt * 10) + (singleLine[counter] - '0');
+					counter++;
+				}
+				counter += 1;
+				//convert month to int
+
+				//Get the year of the movie
+				movieYearInt = (singleLine[counter] - '0') * 1000;
+				movieYearInt += (singleLine[++counter] - '0') * 100;
+				movieYearInt += (singleLine[++counter] - '0') * 10;
+				movieYearInt += singleLine[++counter] - '0';
+
+				counter += 2;
+
+				while (singleLine[counter] != ' ')
+				{
+					string temp(1, singleLine[counter]);
+					actorFirst = actorFirst + temp;
+					counter++;
+				}
+				counter += 1;
+
+				while (counter < singleLine.size())
+				{
+					actorLast = actorLast + singleLine[counter];
+					counter++;
+				}
+				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << monthMovieInt << " " << movieYearInt << " " << actorFirst << " " << actorLast << endl;
+			}
 		}
 		else {
 			cout << "invalid character input" << endl;
@@ -116,24 +215,9 @@ void MovieStore::readCommandData(ifstream &input) {
 	}
 }
 
-void MovieStore::displayAllCustomerHistory() {
+void MovieStore::displayAllCustomer() {
 	history.displayAllCustomerHistory();
 }
-
-/*
-void MovieStore::displayCustomerHistory(int customerID)
-{
-	cout << "Customer ID: " << customerID << " ";
-
-	//Convert Id to hash id
-	customerID = hashCustomerID(customerID);
-
-	cout << customerHashtable[customerID]->customer.firstName << " " << customerHashtable[customerID]->customer.lastName << endl;
-
-	//Display the customers history, implimented in customer classF
-	customerHashtable[customerID]->customer.displayHistory();
-}
- */
 
 void MovieStore::displayInventory() {
 	inventory.displayInventory();

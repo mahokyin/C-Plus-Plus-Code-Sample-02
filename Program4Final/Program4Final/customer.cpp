@@ -7,6 +7,7 @@ Customer::Customer() {
 	customerID = 0;
 	firstName = "N/A";
 	lastName = "N/A";
+	//head = new HistoryData;
 	head = NULL;
 }
 
@@ -14,6 +15,7 @@ Customer::Customer(int id, string firstname, string lastname) {
 	this->customerID = id;
 	this->firstName = firstname;
 	this->lastName = lastname;
+	//head = new HistoryData;
 	head = NULL;
 }
 
@@ -63,27 +65,32 @@ void Customer::addTransacionHistory(string transType, string genre, string title
 void Customer::displayHistory()
 {
 
-	HistoryData *curr = head;
 
 	if (head == NULL) {
 		cout << "No history for this customer" << endl;
 		return;
 	}
-
+	HistoryData *curr = head;
 	while (curr != NULL)
 	{
-		cout << "DVD " << curr->transactionType << " ";
+		cout << curr->transactionType << " ";
 
 		Classic *classic = dynamic_cast<Classic*>(curr->movie);
 
+		//Check the genre of the movie
 		if (classic == NULL)
 		{
+			//Print out drama's and comedy's information
 			cout << curr->movie->getTitle() << " " << curr->movie->getDirector() << " " << curr->movie->getYear() << endl;
 		}
 		else
 		{
+			//Print out classics information
 			cout << classic->getTitle() << " " << classic->getDirector() << " " << classic->getYear() << " " << classic->getMonth() << " " << classic->getActor() << endl;
 		}
+
+		cout << endl;
+		curr = curr->next; //Traverse the linked list
 	}
 }
 
