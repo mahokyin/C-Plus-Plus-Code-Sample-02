@@ -18,18 +18,20 @@ class MovieStore
 public:
 	MovieStore(); //creates a new instance of MovieStore that is empty.
 	MovieStore(ifstream &inputCustomer, ifstream &inputMovie); //creates a new instance of MovieStore that is empty.
+
 	bool readCustomerData(ifstream &input);
 	bool readMovieData(ifstream &input);
+	bool readCommandData(ifstream &input);
+
     bool addCustomer(Customer &customer); //adds a new customer into the hash array of customers
         //using the line taken from the text document.
     bool addMovie(Movie *newMovie, int stockAmount); //adds a new movie into the movie double linked lsisted
         //using the line taken from the text document.
-    void displayCustomerHistory(string line); //takes the line that asks to print the information
-        //of the transactions of a user, and prints it.
-    void displayInventory(string line); //takes the line that asks to print the inventory
-        //of the movie store, and prints it.
-	void displayAllCustomer();
-	void displayAllMovie();
+
+    void displayAllCustomerHistory();
+	void displayCustomerHistory(int customerID);
+    void displayInventory(); //takes the line that asks to print the inventory
+
     bool returnMovie(string line); //takes the line that asks to return a movie to the store
         //and returns it if the values are valid.
     bool borrowMovie(string line); //takes the line that asks to borrow a movie from the store

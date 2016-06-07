@@ -30,7 +30,7 @@ bool Comedy::operator!=(const Movie &rhs) const
 
 bool Comedy::operator<(const Movie &rhs) const
 {
-	return (toupper(rhs.getTitle()[0]) > toupper((this->getTitle())[0]));
+	return (toupper(this->getTitle()[1]) < toupper((rhs.getTitle())[1]));
 }
 
 bool Comedy::operator>(const Movie &rhs) const

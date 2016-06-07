@@ -1,4 +1,8 @@
 #include "moviestore.h"
+#include "borrow.h"
+#include "history.h"
+#include "return.h"
+#include "inventory.h"
 #include<iomanip>
 using namespace std;
 
@@ -307,7 +311,37 @@ bool MovieStore::readMovieData(ifstream &input) {
 	return true;
 }
 
-void MovieStore::displayAllCustomer() {
+bool MovieStore::readCommandData(ifstream &input) {
+	string str;
+	if (!input) return false;
+	// Need to add exception to handle the error if not found the file.
+
+	string singleLine;
+	MovieStore M;
+
+	while (!input.eof())
+	{
+		//Gets a line from the data file and saves it into variable "singleLine"
+		getline(input, singleLine);
+		//Calls function genTrans which will return an instance of one of the child classes of transaction
+		//depending on the first character in the file. With that instance, execute is called, which is an
+		//overloaded function and takes a type MovieClass, and the singleLine.
+
+		if (singleLine[0] == 'I' || singleLine[0] == 'H' || singleLine[0] == 'B' || singleLine[0] == 'R')
+		{
+			Borrow borrow;
+			borrow.execute(M, singleLine);
+		}
+		else
+		{
+			cout << "invalid character input" << endl;
+		}
+	}
+	
+	return true;
+}
+
+void MovieStore::displayAllCustomerHistory() {
 	cout << "ID" << setw(23) << "Frist name" << setw(23) << "Last name \n";
 	CustomerHashNode *nodePtr;
 	for (int i = 0; i < 10; i++) {
@@ -320,24 +354,441 @@ void MovieStore::displayAllCustomer() {
 	cout << endl;
 }
 
-void MovieStore::displayAllMovie() {
-	cout << "Display all comedy movies" << endl;
-	cout << "Stock" << setw(23) << "Director" << setw(23) << "Title" << setw(23) << "Year \n";
-	MovieHashNode *nodePtr;
-	for (int i = 0; i < 3; i++) {
-		nodePtr = movieHashtable[i];
-		while (nodePtr != NULL) {
-			if (!dynamic_cast<const Classic*>(nodePtr->movie)) {
-				cout << nodePtr->stock << setw(20) << nodePtr->movie->getDirector()
-					<< setw(20) << nodePtr->movie->getTitle() << setw(20) << nodePtr->movie->getYear() << endl;
-			}
-			else {
-				Classic *ptr = static_cast<Classic*>(nodePtr->movie);
-				cout << nodePtr->stock << setw(20) << nodePtr->movie->getDirector()
-					<< setw(20) << nodePtr->movie->getTitle() << setw(20) << setw(20) << ptr->getActor() << setw(20) << ptr->getDay() << setw(10) << ptr->getYear() << endl;
-			}
-			nodePtr = nodePtr->next;
-		}
+void MovieStore::displayCustomerHistory(int customerID)
+{
+	cout << "Customer ID: " << customerID << " ";
+
+	//Convert Id to hash id
+	customerID = hashCustomerID(customerID);
+
+	cout << customerHashtable[customerID]->customer.firstName << " " << customerHashtable[customerID]->customer.lastName << endl;
+
+	//Display the customers history, implimented in customer classF
+	customerHashtable[customerID]->customer.displayHistory();
+}
+
+void MovieStore::displayInventory() {
+	cout << "Comedy" << endl;
+	cout << "Stock" << setw(14) << "Director" << setw(17) << "Title" << setw(35) << "Year \n";
+	MovieHashNode *nodePtr = movieHashtable[1];
+	while (nodePtr != NULL) {			
+		cout << left << setw(10) << nodePtr->stock << setw(20) << nodePtr->movie->getDirector()
+				<< setw(35) << nodePtr->movie->getTitle() << setw(20) << nodePtr->movie->getYear() << endl;
+		nodePtr = nodePtr->next;
 	}
 	cout << endl;
+
+	cout << "Dramma" << endl;
+	cout << internal << "Stock" << setw(14) << "Director" << setw(17) << "Title" << setw(35) << "Year \n";
+	nodePtr = movieHashtable[2];
+	while (nodePtr != NULL) {
+		cout << left << setw(10) << nodePtr->stock << setw(20) << nodePtr->movie->getDirector()
+			<< setw(35) << nodePtr->movie->getTitle() << setw(20) << nodePtr->movie->getYear() << endl;
+		nodePtr = nodePtr->next;
+	}
+	cout << endl;
+
+	cout << "Classic" << endl;
+	cout << internal << "Stock" << setw(14) << "Director" << setw(15) << "Title" << setw(35) << "Actor" << setw(17) << "Month" << setw(14) << "Year \n";
+	nodePtr = movieHashtable[0];
+	while (nodePtr != NULL) {
+		Classic *classObj = static_cast<Classic*>(nodePtr->movie);
+		cout << left << setw(10) << nodePtr->stock << setw(20) << classObj->getDirector()
+			<< setw(35) << classObj->getTitle() << setw(20) << classObj->getActor() << 
+			setw(20) << classObj->getMonth() << setw(20) << classObj->getYear() << endl;
+		nodePtr = nodePtr->next;
+	}
+	cout << endl;
+}
+
+bool MovieStore::borrowMovie(string line)
+{
+	int	customerID = 0;
+	char mediaType;
+	string movieType;
+	string movieName;
+	string directorName;
+	int movieYear = 0;
+	int movieMonth = 0;
+	int counter = 11;
+	int movieNameCounter = 0;
+	string action = "b"; //For borrow, will be 'r' for return, used for helper function canBorrow
+
+						 //Get the customer id
+	customerID = (line[2] - '0') * 1000;
+	customerID += (line[3] - '0') * 100;
+	customerID += (line[4] - '0') * 10;
+	customerID += line[5] - '0';
+
+	//Convert to hash id
+	customerID = hashCustomerID(customerID);
+
+	mediaType = line[7];
+	movieType[0] = line[9];
+
+	//Check the movie genre type
+	if (movieType == "F")/////////////////////Comedy
+	{
+		//Get the name of the movie
+		while (line[counter] != ',')
+		{
+			movieName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Get the year of the movie
+		movieYear = (line[counter + 2] - '0') * 1000;
+		movieYear += (line[counter + 3] - '0') * 100;
+		movieYear += (line[counter + 4] - '0') * 10;
+		movieYear += line[counter + 5] - '0';
+
+		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
+		while (movieHashtable[1]->next != NULL)
+		{
+			//Check if title and year match up
+			if (movieHashtable[1]->movie->getTitle() == movieName && movieHashtable[1]->movie->getYear() == movieYear)
+			{
+				//Check if there is still stock
+				if (movieHashtable[1]->stock > 0)
+				{
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[1]->stock -= 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear); /////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You are currently borrowing this movie" << endl;
+						return false;
+					}
+				}
+				else
+				{
+					cout << "Movie is out of stock" << endl;
+					return false;
+				}
+
+				//If that wasnt the correct movie move on to the next one
+				movieHashtable[1]->next = movieHashtable[1]->next->next;
+			}
+		}
+	}
+	else if (movieType == "D") /////////////////////////Drama
+	{
+		//Get the name of the director
+		while (line[counter] != ',')
+		{
+			directorName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Get the name of the movie
+		movieNameCounter = 0;
+		counter += 2;
+		while (line[counter] != ',')
+		{
+			movieName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
+		while (movieHashtable[2]->next != NULL)
+		{
+			//Check if title and year match up
+			if (movieHashtable[2]->movie->getTitle() == movieName && movieHashtable[2]->movie->getYear() == movieYear)
+			{
+				//Check if there is still stock
+				if (movieHashtable[2]->stock > 0)
+				{
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[2]->stock -= 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear);/////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You are currently borrowing this movie" << endl;
+						return false;
+					}
+				}
+				else
+				{
+					cout << "Movie is out of stock" << endl;
+					return false;
+				}
+
+				//If that wasnt the correct movie move on to the next one
+				movieHashtable[2]->next = movieHashtable[2]->next->next;
+			}
+		}
+	}
+	else if (movieType == "C") //////////////////////////////////////Classic
+	{
+		//Get the month of the movie
+		movieMonth = line[11];
+
+		//Get the year of the movie
+		movieYear = (line[13] - '0') * 1000;
+		movieYear += (line[14] - '0') * 100;
+		movieYear += (line[15] - '0') * 10;
+		movieYear += line[16] - '0';
+
+		counter = 18;
+		movieNameCounter = 0;
+		//Get the name of the director
+		while (line[counter] != ',')
+		{
+			directorName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
+		while (movieHashtable[0]->next != NULL)
+		{
+			//Check if title and year match up
+			if (movieHashtable[0]->movie->getTitle() == movieName && movieHashtable[0]->movie->getYear() == movieYear)
+			{
+				//Check if there is still stock
+				if (movieHashtable[0]->stock > 0)
+				{
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[0]->stock -= 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear);/////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You are currently borrowing this movie" << endl;
+						return false;
+					}
+				}
+				else
+				{
+					cout << "Movie is out of stock" << endl;
+					return false;
+				}
+
+				//If that wasnt the correct movie move on to the next one
+				movieHashtable[0]->next = movieHashtable[0]->next->next;
+			}
+		}
+	}
+	else
+	{
+		cout << "The movie type is invalid" << endl;
+		return false;
+	}
+
+
+	cout << "Movie could not be found" << endl;
+	return false;
+
+	//cout << "customerID: " << customerID << " media type: " << mediaType << " movie type: " << movieType << " Movie name: " << movieName << " movie year: " << movieYear << endl;
+}
+
+bool MovieStore::returnMovie(string line) //////////////////////////////////////////////////////////////return
+{
+	int	customerID = 0;
+	char mediaType;
+	string movieType;
+	string movieName;
+	string directorName;
+	int movieYear = 0;
+	int movieMonth = 0;
+	int counter = 11;
+	int movieNameCounter = 0;
+	string action = "r"; //For borrow, will be 'r' for return, used for helper function canBorrow
+
+						 //Get the customer id
+	customerID = (line[2] - '0') * 1000;
+	customerID += (line[3] - '0') * 100;
+	customerID += (line[4] - '0') * 10;
+	customerID += line[5] - '0';
+
+	//Convert to hash id
+	customerID = hashCustomerID(customerID);
+
+	mediaType = line[7];
+	movieType[0] = line[9];
+
+	//Check the movie genre type
+	if (movieType == "F")/////////////////////Comedy
+	{
+		//Get the name of the movie
+		while (line[counter] != ',')
+		{
+			movieName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Get the year of the movie
+		movieYear = (line[counter + 2] - '0') * 1000;
+		movieYear += (line[counter + 3] - '0') * 100;
+		movieYear += (line[counter + 4] - '0') * 10;
+		movieYear += line[counter + 5] - '0';
+
+		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
+		while (movieHashtable[1]->next != NULL)
+		{
+			//Check if title and year match up
+			if (movieHashtable[1]->movie->getTitle() == movieName && movieHashtable[1]->movie->getYear() == movieYear)
+			{
+				//Check if the movies stock is full, if it is then no one has borrowed it yet so you cant return it
+				if (movieHashtable[1]->stock == movieHashtable[1]->maxStock)
+				{
+					cout << "Cant return the item because you havent checked it out yet" << endl;
+					return false;
+				}
+				else
+				{
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canReturn(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[1]->stock += 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear); /////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You have not borrowed this movie so you cant return it" << endl;
+						return false;
+					}
+				}
+
+				//If that wasnt the correct movie move on to the next one
+				movieHashtable[1]->next = movieHashtable[1]->next->next;
+			}
+		}
+	}
+	else if (movieType == "D") /////////////////////////Drama
+	{
+		//Get the name of the director
+		while (line[counter] != ',')
+		{
+			directorName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Get the name of the movie
+		movieNameCounter = 0;
+		counter += 2;
+		while (line[counter] != ',')
+		{
+			movieName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
+		while (movieHashtable[2]->next != NULL)
+		{
+			//Check if title and year match up
+			if (movieHashtable[2]->movie->getTitle() == movieName && movieHashtable[2]->movie->getYear() == movieYear)
+			{
+				//Check if the movies stock is full, if it is then no one has borrowed it yet so you cant return it
+				if (movieHashtable[2]->stock == movieHashtable[2]->maxStock)
+				{
+					cout << "Cant return the item because you havent checked it out yet" << endl;
+					return false;
+				}
+				else
+				{
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canReturn(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[2]->stock += 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear); /////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You have not borrowed this movie so you cant return it" << endl;
+						return false;
+					}
+				}
+
+				//If that wasnt the correct movie move on to the next one
+				movieHashtable[2]->next = movieHashtable[2]->next->next;
+			}
+		}
+	}
+	else if (movieType == "C") //////////////////////////////////////Classic
+	{
+		//Get the month of the movie
+		movieMonth = line[11];
+
+		//Get the year of the movie
+		movieYear = (line[13] - '0') * 1000;
+		movieYear += (line[14] - '0') * 100;
+		movieYear += (line[15] - '0') * 10;
+		movieYear += line[16] - '0';
+
+		counter = 18;
+		movieNameCounter = 0;
+		//Get the name of the director
+		while (line[counter] != ',')
+		{
+			directorName[movieNameCounter] = line[counter];
+			counter++;
+		}
+
+		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
+		while (movieHashtable[0]->next != NULL)
+		{
+			//Check if title and year match up
+			if (movieHashtable[0]->movie->getTitle() == movieName && movieHashtable[0]->movie->getYear() == movieYear)
+			{
+				//Check if the movies stock is full, if it is then no one has borrowed it yet so you cant return it
+				if (movieHashtable[0]->stock == movieHashtable[0]->maxStock)
+				{
+					cout << "Cant return the item because you havent checked it out yet" << endl;
+					return false;
+				}
+				else
+				{
+					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
+					if (customerHashtable[customerID]->customer.canReturn(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
+					{
+						//If there is decriment it
+						movieHashtable[0]->stock += 1;
+						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear); /////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
+
+						return true;
+					}
+					else
+					{
+						cout << "You have not borrowed this movie so you cant return it" << endl;
+						return false;
+					}
+				}
+
+				//If that wasnt the correct movie move on to the next one
+				movieHashtable[0]->next = movieHashtable[0]->next->next;
+			}
+		}
+	}
+	else
+	{
+		cout << "The movie type is invalid" << endl;
+		return false;
+	}
+
+
+	cout << "Movie could not be found" << endl;
+	return false;
 }

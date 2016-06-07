@@ -18,11 +18,11 @@ public:
 	virtual bool operator>(const Movie &) const;
 
 	const string getActor() const;      //gets the actor string for classics
-	const int getDay() const;         //gets the month int for classics
+	const int getMonth() const;         //gets the month int for classics
 
 protected:
 	string actor;                       //used to contain the extra actor...
-	int day;                          //info in classic movies
+	int month;                          //info in classic movies
 };
 
 #endif

@@ -1,8 +1,5 @@
 #include "transaction.h"
-#include "inventory.h"
-#include "borrow.h"
-#include "return.h"
-#include "history.h"
+
 #include <iostream>
 #include <string>
 

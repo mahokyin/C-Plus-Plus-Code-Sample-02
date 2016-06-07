@@ -27,7 +27,7 @@ bool Drama::operator!=(const Movie &rhs) const
 
 bool Drama::operator<(const Movie &rhs) const
 {
-	return (toupper(rhs.getDirector()[0]) > toupper((this->getDirector())[0]));
+	return (toupper(rhs.getDirector()[1]) > toupper((this->getDirector())[1]));
 }
 
 bool Drama::operator>(const Movie &rhs) const

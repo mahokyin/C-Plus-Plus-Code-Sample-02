@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 #include "movie.h"
+#include "classic.h"
+#include "drama.h"
+#include "comedy.h"
 
 using namespace std;
 
@@ -20,6 +23,10 @@ public:
 	//Function is used to save the transaction to the HistoryData linked list
 	void addTransacionHistory(string transType, string genre, string title, string director, int month, int year);
 	void displayHistory();
+
+	bool canBorrow(int id, string movieType, string action, string movieName, string directorName, int month, int year);
+	bool canReturn(int id, string movieType, string action, string movieName, string directorName, int month, int year);
+
 private:
 	struct HistoryData
 	{

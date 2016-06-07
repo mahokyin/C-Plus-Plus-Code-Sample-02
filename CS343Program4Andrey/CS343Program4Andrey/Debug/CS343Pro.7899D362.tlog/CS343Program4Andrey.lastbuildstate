@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
-Debug|Win32|C:\Users\Dre\Documents\C-Plus-Plus-Code-Sample-02\CS343Program4Andrey\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+Debug|Win32|C:\Users\Joe Ma\Documents\Joe\Dev\GitHub\C-Plus-Plus-Code-Sample-02\CS343Program4Andrey\|
