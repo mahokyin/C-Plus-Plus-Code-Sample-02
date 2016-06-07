@@ -20,6 +20,13 @@ public:
 	const string getActor() const;      //gets the actor string for classics
 	const int getMonth() const;         //gets the month int for classics
 
+	virtual void setDirector(string movieDiretor);
+	virtual void setMovieTitle(string movieTitle);
+	virtual void setMovieYear(int movieYear);
+	virtual void setMovieGenre(string movieGenre);
+	//void setActor(string actorName);
+	void setMonth(int movieMonth);
+
 protected:
 	string actor;                       //used to contain the extra actor...
 	int month;                          //info in classic movies

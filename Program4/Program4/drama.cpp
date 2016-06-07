@@ -34,3 +34,26 @@ bool Drama::operator>(const Movie &rhs) const
 {
 	return !(*this < rhs);
 }
+
+void Drama::setDirector(string movieDiretor)
+{
+	this->director = movieDiretor;
+}
+
+
+void Drama::setMovieTitle(string movieTitle)
+{
+	this->title = movieTitle;
+}
+
+
+void Drama::setMovieYear(int movieYear)
+{
+	this->year = movieYear;
+}
+
+
+void Drama::setMovieGenre(string movieGenre)
+{
+	this->type = movieGenre;
+}

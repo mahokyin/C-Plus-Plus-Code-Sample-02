@@ -37,3 +37,26 @@ bool Comedy::operator>(const Movie &rhs) const
 {
 	return !(*this < rhs);
 }
+
+void Comedy::setDirector(string movieDiretor)
+{
+	this->director = movieDiretor;
+}
+
+
+void Comedy::setMovieTitle(string movieTitle)
+{
+	this->title = movieTitle;
+}
+
+
+void Comedy::setMovieYear(int movieYear)
+{
+	this->year = movieYear;
+}
+
+
+void Comedy::setMovieGenre(string movieGenre)
+{
+	this->type = movieGenre;
+}

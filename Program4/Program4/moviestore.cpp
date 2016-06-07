@@ -319,7 +319,6 @@ void MovieStore::readCommandData(ifstream &input) {
 	// Need to add exception to handle the error if not found the file.
 
 	string singleLine;
-	MovieStore M;
 
 	while (!input.eof())
 	{
@@ -331,27 +330,28 @@ void MovieStore::readCommandData(ifstream &input) {
 
 		if (singleLine[0] == 'I') {
 			Inventory inventory;
-			inventory.execute(M, singleLine);
+			inventory.execute(*this, singleLine);
 		} 
 		else if (singleLine[0] == 'H')
 		{
 			History history;
-			history.execute(M, singleLine);
+			history.execute(*this, singleLine);
 		}
 		else if (singleLine[0] == 'B')
 		{
 			Borrow borrow;
-			borrow.execute(M, singleLine);
+			borrow.execute(*this, singleLine);
 		}
 		else if (singleLine[0] == 'R')
 		{
 			Return ret;
-			ret.execute(M, singleLine);
+			ret.execute(*this, singleLine);
 		}
 		else
 		{
 			cout << "invalid character input" << endl;
 		}
+		cout << "1";
 	}
 }
 
@@ -419,8 +419,8 @@ bool MovieStore::borrowMovie(string line)
 {
 	int	customerID = 0;
 	char mediaType;
-	string movieType;
-	string movieName;
+	string movieType= " ";
+	string movieName = " ";
 	string directorName;
 	int movieYear = 0;
 	int movieMonth = 0;
@@ -446,8 +446,8 @@ bool MovieStore::borrowMovie(string line)
 		//Get the name of the movie
 		while (line[counter] != ',')
 		{
-			movieName[movieNameCounter] = line[counter];
-			counter++;
+			movieName = movieName + line[counter];
+			counter++; 
 		}
 
 		//Get the year of the movie
@@ -456,20 +456,24 @@ bool MovieStore::borrowMovie(string line)
 		movieYear += (line[counter + 4] - '0') * 10;
 		movieYear += line[counter + 5] - '0';
 
+		MovieHashNode *currPtr = movieHashtable[1];
 		//Loop until you have reahed the end of the movie linked list or found the movie you looking for
-		while (movieHashtable[1]->next != NULL)
+
+
+		while (currPtr != NULL)
 		{
 			//Check if title and year match up
-			if (movieHashtable[1]->movie->getTitle() == movieName && movieHashtable[1]->movie->getYear() == movieYear)
+			if (currPtr->movie->getTitle() == movieName && currPtr->movie->getYear() == movieYear)
 			{
 				//Check if there is still stock
-				if (movieHashtable[1]->stock > 0)
+				if (currPtr->stock > 0)
 				{
+					Movie *ptrForRef = currPtr->movie;
 					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
 					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
 					{
 						//If there is decriment it
-						movieHashtable[1]->stock -= 1;
+						currPtr->stock -= 1;
 						customerHashtable[customerID]->customer.addTransacionHistory(action, movieType, movieName, directorName, movieMonth, movieYear); /////////////////////////////////////////////////////ADD TO CUSTOMER HISTORY
 
 						return true;
@@ -485,10 +489,9 @@ bool MovieStore::borrowMovie(string line)
 					cout << "Movie is out of stock" << endl;
 					return false;
 				}
-
-				//If that wasnt the correct movie move on to the next one
-				movieHashtable[1]->next = movieHashtable[1]->next->next;
 			}
+			//If that wasnt the correct movie move on to the next one
+			currPtr = currPtr->next;
 		}
 	}
 	else if (movieType == "D") /////////////////////////Drama
@@ -518,6 +521,7 @@ bool MovieStore::borrowMovie(string line)
 				//Check if there is still stock
 				if (movieHashtable[2]->stock > 0)
 				{
+					Movie *ptrForRef = NULL;
 					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
 					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
 					{
@@ -573,6 +577,7 @@ bool MovieStore::borrowMovie(string line)
 				//Check if there is still stock
 				if (movieHashtable[0]->stock > 0)
 				{
+					Movie *ptrForRef = NULL;
 					//Checks if the customer is already borrowing this movie, and hasnt returned it yet
 					if (customerHashtable[customerID]->customer.canBorrow(customerID, movieType, action, movieName, directorName, movieMonth, movieYear) == true)
 					{
@@ -616,14 +621,14 @@ bool MovieStore::returnMovie(string line) //////////////////////////////////////
 {
 	int	customerID = 0;
 	char mediaType;
-	string movieType;
-	string movieName;
+	string movieType = " ";
+	string movieName = " ";
 	string directorName;
 	int movieYear = 0;
 	int movieMonth = 0;
 	int counter = 11;
 	int movieNameCounter = 0;
-	string action = "r"; //For borrow, will be 'r' for return, used for helper function canBorrow
+	string action = "b"; //For borrow, will be 'r' for return, used for helper function canBorrow
 
 						 //Get the customer id
 	customerID = (line[2] - '0') * 1000;
@@ -643,8 +648,9 @@ bool MovieStore::returnMovie(string line) //////////////////////////////////////
 		//Get the name of the movie
 		while (line[counter] != ',')
 		{
-			movieName[movieNameCounter] = line[counter];
-			counter++;
+			movieName = movieName + line[counter];
+			//movieName[movieNameCounter] = line[counter];
+			counter++; movieNameCounter++;
 		}
 
 		//Get the year of the movie

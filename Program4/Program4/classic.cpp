@@ -63,3 +63,36 @@ bool Classic::operator<(const Movie &rhs) const
 	const Classic *rhsPtr = dynamic_cast<const Classic*>(&rhs);
 	return !(*this > *rhsPtr);
 }
+
+void Classic::setDirector(string movieDiretor)
+{
+	this->director = movieDiretor;
+}
+
+
+void Classic::setMovieTitle(string movieTitle)
+{
+	this->title = movieTitle;
+}
+
+
+void Classic::setMovieYear(int movieYear)
+{
+	this->year = movieYear;
+}
+
+
+void Classic::setMovieGenre(string movieGenre)
+{
+	this->type = movieGenre;
+}
+
+//void Classic::setActor(string actorName)
+//{
+//	this->actor = actorName;
+//}
+
+void Classic::setMonth(int movieMonth)
+{
+	this->month = movieMonth;
+}
