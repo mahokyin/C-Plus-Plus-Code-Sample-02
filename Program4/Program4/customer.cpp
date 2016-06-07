@@ -1,4 +1,7 @@
 #include "customer.h"
+#include "classic.h"
+#include "drama.h"
+#include "comedy.h"
 
 Customer::Customer() {
 	customerID = 0;
@@ -24,12 +27,48 @@ Customer::~Customer() {
 	}
 }
 
-void Customer::addTransacionHistory(string transType, string genre, string title, string director, int month, int year) {
+void Customer::addTransacionHistory(string transType, string genre, string title, string director, int month, int year)
+{
+	HistoryData *newNode;
+	newNode->transactionType = transType;
 
+	if (genre == "F") //////////////////////////Comedy
+	{
+		//newNode->movie->director = director;
+
+		//Comedy *comedy = dynamic_cast<Comedy*>(newNode->movie);  /////////////////////NOT sure why its inaccessible
+		//comedy->director = director;
+	}
 }
 
-void Customer::displayHistory() {
+void Customer::displayHistory()
+{
+	HistoryData *curr = head;
 
+	if (head->next == NULL) {
+		cout << "No History for this customer !" << endl;
+		return;
+	}
+
+	while (curr != NULL)
+	{
+		cout << "DVD " << curr->transactionType << " ";
+
+		if (Comedy *comedy = dynamic_cast<Comedy*>(curr->movie))
+		{
+			comedy = dynamic_cast<Comedy*>(curr->movie);
+			cout << comedy->getTitle() << " " << comedy->getDirector() << " " << comedy->getYear() << endl;
+		}
+		else if (Drama *drama = dynamic_cast<Drama*>(curr->movie))
+		{
+			cout << drama->getTitle() << " " << drama->getDirector() << " " << drama->getYear() << endl;
+		}
+		else
+		{
+			Classic *classic = dynamic_cast<Classic*>(curr->movie);
+			cout << classic->getTitle() << " " << classic->getDirector() << " " << classic->getYear() << " " << classic->getMonth() << " " << classic->getActor() << endl;
+		}
+	}
 }
 
 bool Customer::canBorrow(int id, string movieType, string action, string movieName, string directorName, int month, int year)

@@ -311,9 +311,11 @@ bool MovieStore::readMovieData(ifstream &input) {
 	return true;
 }
 
-bool MovieStore::readCommandData(ifstream &input) {
+void MovieStore::readCommandData(ifstream &input) {
 	string str;
-	if (!input) return false;
+	if (!input) {
+		cout << "File not found !" << endl;
+	}
 	// Need to add exception to handle the error if not found the file.
 
 	string singleLine;
@@ -327,18 +329,30 @@ bool MovieStore::readCommandData(ifstream &input) {
 		//depending on the first character in the file. With that instance, execute is called, which is an
 		//overloaded function and takes a type MovieClass, and the singleLine.
 
-		if (singleLine[0] == 'I' || singleLine[0] == 'H' || singleLine[0] == 'B' || singleLine[0] == 'R')
+		if (singleLine[0] == 'I') {
+			Inventory inventory;
+			inventory.execute(M, singleLine);
+		} 
+		else if (singleLine[0] == 'H')
+		{
+			History history;
+			history.execute(M, singleLine);
+		}
+		else if (singleLine[0] == 'B')
 		{
 			Borrow borrow;
 			borrow.execute(M, singleLine);
+		}
+		else if (singleLine[0] == 'R')
+		{
+			Return ret;
+			ret.execute(M, singleLine);
 		}
 		else
 		{
 			cout << "invalid character input" << endl;
 		}
 	}
-	
-	return true;
 }
 
 void MovieStore::displayAllCustomerHistory() {

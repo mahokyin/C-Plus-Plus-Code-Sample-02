@@ -21,7 +21,7 @@ public:
 
 	bool readCustomerData(ifstream &input);
 	bool readMovieData(ifstream &input);
-	bool readCommandData(ifstream &input);
+	void readCommandData(ifstream &input);
 
     bool addCustomer(Customer &customer); //adds a new customer into the hash array of customers
         //using the line taken from the text document.
@@ -29,6 +29,7 @@ public:
         //using the line taken from the text document.
 
     void displayAllCustomerHistory();
+
 	void displayCustomerHistory(int customerID);
     void displayInventory(); //takes the line that asks to print the inventory
 
@@ -41,7 +42,7 @@ private:
 	// Structure of hashtable and hashNode for Customer object
 	struct CustomerHashNode {
 		Customer customer;
-		CustomerHashNode *next;
+		CustomerHashNode *next = NULL;
 	};
 	CustomerHashNode *customerHashtable[10];
     int hashCustomerID(int id); // gets the hash value from the customer ID

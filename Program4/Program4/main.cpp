@@ -9,6 +9,10 @@ int main() {
 
 	movieStore.displayAllCustomerHistory();
 	movieStore.displayInventory();
+
+	ifstream movieCommandFile("data4commands.txt");
+	movieStore.readCommandData(movieCommandFile);
+
 	system("pause");
 	return 0;
 }
