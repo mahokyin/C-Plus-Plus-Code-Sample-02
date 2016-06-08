@@ -9,8 +9,8 @@ using namespace std;
 
 struct MovieHashNode {
 	Movie *movie = NULL;
-	int stock;
-	int maxStock;
+	int stock = 0;
+	int maxStock = 0;
 	MovieHashNode *next = NULL;
 	MovieHashNode *prev = NULL;
 };
@@ -20,6 +20,7 @@ class Inventory
 public:
 	// Default constructor
 	Inventory();
+	~Inventory();
 
 	void displayInventory(); //takes the line that asks to print the inventory
 	bool addMovie(Movie *newMovie, int stockAmount); //adds a new movie into the movie double linked lsisted

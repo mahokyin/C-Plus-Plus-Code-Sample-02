@@ -1,9 +1,5 @@
 #include "moviestore.h"
-#include <stdlib.h>
-#include <cstdlib>
-#include <string>
-#include <iostream>
-#include<iomanip>
+
 using namespace std;
 
 MovieStore::MovieStore() {
@@ -154,14 +150,22 @@ void MovieStore::readCommandData(ifstream &input) {
 				movieYearInt += singleLine[counter + 5] - '0';
 
 				movieName = movieName.substr(1, movieName.size());
-				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << movieName << " " << movieYearInt << endl;
-				if (action == "B") {
-					string type(1, mediaType);
-					Comedy *classic = new Comedy("Sleepless in Seattle", "Good Morning Vietnam", 1993, "");
-					MovieHashNode *movieHashNode = inventory.searchInventory(classic);
-					if (movieHashNode != NULL)
-						cout << movieHashNode->stock << movieHashNode->movie->getTitle() << endl;
+
+				if (mediaType != 'D') {
+					cout << "Invalid Action: Invalid media type !" << endl;
 				}
+				else {
+					Comedy comedy("N/A", movieName, movieYearInt, movieType);
+					if (action == "B") {
+						Borrow borrow(inventory, history, customerID, comedy);
+						borrow.execute();
+					}
+					else {
+						Return returnM(inventory, history, customerID, comedy);
+						returnM.execute();
+					}
+				}
+				//cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << movieName << " " << movieYearInt << endl;
 			}
 			else if (movieType == "D")
 			{
@@ -181,15 +185,23 @@ void MovieStore::readCommandData(ifstream &input) {
 				}
 				movieName = movieName.substr(1, movieName.size());
 
-				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << directorName << " " << movieName << endl;
 
-				if (action == "B") {
-					string type(1, mediaType);
-					Drama *classic = new Drama("Barry Levinson", "Good Morning Vietnam", 444, "");
-					MovieHashNode *movieHashNode = inventory.searchInventory(classic);
-					if (movieHashNode != NULL)
-						cout << movieHashNode->stock << movieHashNode->movie->getTitle() << endl;
+				if (mediaType != 'D') {
+					cout << "Invalid Action: Invalid media type !" << endl;
 				}
+				else {
+					Drama drama(directorName, movieName, 0, movieType);
+					if (action == "B") {
+						Borrow borrow(inventory, history, customerID, drama);
+						borrow.execute();
+					}
+					else {
+						Return returnM(inventory, history, customerID, drama);
+						returnM.execute();
+					}
+				}
+
+				//cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << directorName << " " << movieName << endl;
 			}
 			else if (movieType == "C")
 			{
@@ -223,34 +235,33 @@ void MovieStore::readCommandData(ifstream &input) {
 				}
 				counter += 1;
 
-				while (counter < singleLine.size())
+				while (counter < singleLine.size() - 1)
 				{
 					actorLast = actorLast + singleLine[counter];
 					counter++;
 				}
-				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << monthMovieInt << " " << movieYearInt << " " << actorFirst << " " << actorLast << endl;
 
-				if (action == "B") {
-					string type(1, mediaType);
-					Classic *classic = new Classic("N/A", "N/A", movieYearInt, type, actorFirst + " " + actorLast, monthMovieInt);
-					MovieHashNode *movieHashNode = inventory.searchInventory(classic);
-					if (movieHashNode != NULL)
-						cout << movieHashNode->stock << movieHashNode->movie->getTitle() << endl;
+				if (mediaType != 'D') {
+					cout << "Invalid Action: Invalid media type !" << endl;
 				}
+				else {
+					Classic classic("N/A", "N/A", movieYearInt, movieType, actorFirst + " " + actorLast, monthMovieInt);
+					if (action == "B") {
+						Borrow borrow(inventory, history, customerID, classic);
+						borrow.execute();
+					}
+					else {
+						Return returnM(inventory, history, customerID, classic);
+						returnM.execute();
+					}
+				}
+				//cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << monthMovieInt << " " << movieYearInt << " " << actorFirst << " " << actorLast << endl;
 			}
 		}
 		else {
 			cout << "invalid character input" << endl;
 		}
 	}
-}
-
-void MovieStore::displayAllCustomer() {
-	history.displayAllCustomerHistory();
-}
-
-void MovieStore::displayInventory() {
-	inventory.displayInventory();
 }
 
 

@@ -29,47 +29,26 @@ Customer::~Customer() {
 	}
 }
 
-void Customer::addTransacionHistory(string transType, string genre, string title, string director, int month, int year)
+void Customer::addTransacionHistory(string trans, Movie *movie)
 {
-	HistoryData *curr = head;
-	HistoryData *newNode = new HistoryData;
-	newNode->transactionType = transType;
-
-	if (genre == "F") //////////////////////////Comedy
-	{
-		Comedy *comedy = new Comedy(title, director, year, "DVD");  /////////////////////NOT sure why its inaccessible
-		newNode->movie = comedy;
-		
-													 //comedy->setDirector(director);
-	}
-	else if (genre == "D") //////////////////////////Drama
-	{
-		Drama *drama = new Drama(title, director, year, "DVD");
-		newNode->movie = drama;
-	}
-	else if (genre == "C") //////////////////////////Classic
-	{
-		//Classic *drama = new Classic(title, director, year, "DVD", actor, month);
-		//newNode->movie = drama;
-	}
-
-	while (curr->next != NULL)
-	{
-		curr = curr->next;
-	}
-
-	curr->next = newNode;
-	newNode->next = NULL;
+	HistoryData *newHistory = new HistoryData;
+	newHistory->movie = movie;
+	newHistory->transactionType = trans;
+	newHistory->next = head;
+	head = newHistory;
 }
 
 void Customer::displayHistory()
 {
-
+	//cout << internal << "Stock" << setw(13) << "Director" << setw(17) << "Title" << setw(20) << "Actor" << setw(22) << "Month" << setw(18) << "Year" << endl;
 
 	if (head == NULL) {
-		cout << "No history for this customer" << endl;
+		cout << "No transaction history of " << this->firstName << " " << this->lastName << " (" << this->customerID << ")" << endl;
 		return;
 	}
+
+	cout << endl;
+	cout << "Transaction history of " << this->firstName << " " << this->lastName << " (" << this->customerID << ")" << endl;
 	HistoryData *curr = head;
 	while (curr != NULL)
 	{
@@ -89,185 +68,33 @@ void Customer::displayHistory()
 			cout << classic->getTitle() << " " << classic->getDirector() << " " << classic->getYear() << " " << classic->getMonth() << " " << classic->getActor() << endl;
 		}
 
-		cout << endl;
 		curr = curr->next; //Traverse the linked list
 	}
 }
 
-bool Customer::canBorrow(int id, string movieType, string action, string movieName, string directorName, int month, int year)
-{
-	HistoryData *curr = head;
-	bool borrowNoReturn = false;
 
-	if (movieType == "F") //////////////////////////////Comedy
-	{
-		//While youre not at the end of the list
-		while (curr != NULL)
-		{
-			Comedy *comedy = dynamic_cast<Comedy*>(curr->movie);
-
-			//Search through the history for the desired movie, if its been BORROWED
-			if (curr->transactionType == action && comedy->getTitle() == movieName && comedy->getYear() == year)
-			{
-				//Found the movie in the customers history and they borrowed it, not sure if they returned it yet
-				borrowNoReturn = true;
-			}
-			//Search through the history for the desired movie, if its been RETURNED
-			else if (curr->transactionType != action && comedy->getTitle() == movieName && comedy->getYear() == year)
-			{
-				//Found the movie in the customers history and they returned it
-				borrowNoReturn = false;
-			}
-
-			//Traverse the list
-			curr = curr->next;
-		}
+bool Customer::canBorrow(string transType, Movie *movie) {
+	if (head == NULL) return true;
+	HistoryData *currPtr = head;
+	while (currPtr != NULL) {
+		if (currPtr->transactionType == transType && currPtr->movie == movie) return false;
+		if (currPtr->transactionType != transType && currPtr->movie == movie) return true;
+		currPtr = currPtr->next;
 	}
-	else if (movieType == "D") /////////////////////////////////Drama
-	{
-		//While youre not at the end of the list
-		while (curr != NULL)
-		{
-			Drama *drama = dynamic_cast<Drama*>(curr->movie);
-
-			//Search through the history for the desired movie, if its been BORROWED
-			if (curr->transactionType == action && drama->getDirector() == directorName && drama->getTitle() == movieName)
-			{
-				//Found the movie in the customers history and they borrowed it, not sure if they returned it yet
-				borrowNoReturn = true;
-			}
-			//Search through the history for the desired movie, if its been RETURNED
-			else if (curr->transactionType != action && drama->getDirector() == directorName && drama->getTitle() == movieName)
-			{
-				//Found the movie in the customers history and they returned it
-				borrowNoReturn = false;
-			}
-
-			//Traverse the list
-			curr = curr->next;
-		}
-	}
-	else if (movieType == "C") //////////////////////////////////Classics
-	{
-		//While youre not at the end of the list
-		while (curr != NULL)
-		{
-			Classic *classic = dynamic_cast<Classic*>(curr->movie);
-
-			//Search through the history for the desired movie, if its been BORROWED
-			if (curr->transactionType == action && classic->getDirector() == directorName && classic->getMonth() == month && classic->getYear() == year)
-			{
-				//Found the movie in the customers history and they borrowed it, not sure if they returned it yet
-				borrowNoReturn = true;
-			}
-			//Search through the history for the desired movie, if its been RETURNED
-			else if (curr->transactionType != action && classic->getDirector() == directorName && classic->getMonth() == month && classic->getYear() == year)
-			{
-				//Found the movie in the customers history and they returned it
-				borrowNoReturn = false;
-			}
-
-			//Traverse the list
-			curr = curr->next;
-		}
-	}
-
-	//Return depending on if the movie has been borrowed and not returned or not borrowed at all
-	if (borrowNoReturn == false)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return true;
 }
 
-bool Customer::canReturn(int id, string movieType, string action, string movieName, string directorName, int month, int year)
-{
-	HistoryData *curr = head;
-	bool borrowAndReturn = false; //Flag to check if movie was borrowed and returned
-
-	if (movieType == "F") //////////////////////////////Comedy
-	{
-		//While youre not at the end of the list
-		while (curr != NULL)
-		{
-			Comedy *comedy = dynamic_cast<Comedy*>(curr->movie);
-
-			//Search through the history for the desired movie, if its been RETURNED
-			if (curr->transactionType == action && comedy->getTitle() == movieName && comedy->getYear() == year)
-			{
-				//Found the movie in the customers history and they returned it
-				borrowAndReturn = false;
-			}
-			//Search through the history for the desired movie, if its been BORROWED
-			else if (curr->transactionType != action && comedy->getTitle() == movieName && comedy->getYear() == year)
-			{
-				//Found the movie in the customers history and they borrowed it
-				borrowAndReturn = true;
-			}
-
-			//Traverse the list
-			curr = curr->next;
+bool Customer::canReturn(string transType, Movie *movie, string *errorMsg) {
+	if (head == NULL) return false;
+	HistoryData *currPtr = head;
+	while (currPtr != NULL) {
+		if (currPtr->transactionType == transType && currPtr->movie == movie) {
+			*errorMsg = "Customer didn't return the same item";
+			return false;
 		}
+		if (currPtr->transactionType != transType && currPtr->movie == movie) return true;
+		currPtr = currPtr->next;
 	}
-	else if (movieType == "D") /////////////////////////////////Drama
-	{
-		//While youre not at the end of the list
-		while (curr != NULL)
-		{
-			Drama *drama = dynamic_cast<Drama*>(curr->movie);
-
-			//Search through the history for the desired movie, if its been BORROWED
-			if (curr->transactionType == action && drama->getDirector() == directorName && drama->getTitle() == movieName)
-			{
-				//Found the movie in the customers history and they returned it
-				borrowAndReturn = false;
-			}
-			//Search through the history for the desired movie, if its been RETURNED
-			else if (curr->transactionType != action && drama->getDirector() == directorName && drama->getTitle() == movieName)
-			{
-				//Found the movie in the customers history and they borrowed it
-				borrowAndReturn = true;
-			}
-
-			//Traverse the list
-			curr = curr->next;
-		}
-	}
-	else if (movieType == "C") //////////////////////////////////Classics
-	{
-		//While youre not at the end of the list
-		while (curr != NULL)
-		{
-			Classic *classic = dynamic_cast<Classic*>(curr->movie);
-
-			//Search through the history for the desired movie, if its been BORROWED
-			if (curr->transactionType == action && classic->getDirector() == directorName && classic->getMonth() == month && classic->getYear() == year)
-			{
-				//Found the movie in the customers history and they returned it
-				borrowAndReturn = false;
-			}
-			//Search through the history for the desired movie, if its been RETURNED
-			else if (curr->transactionType != action && classic->getDirector() == directorName && classic->getMonth() == month && classic->getYear() == year)
-			{
-				//Found the movie in the customers history and they borrowed it
-				borrowAndReturn = true;
-			}
-
-			//Traverse the list
-			curr = curr->next;
-		}
-	}
-
-	//Return depending on if the movie has been borrowed and not returned or not borrowed at all
-	if (borrowAndReturn == true)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	*errorMsg = "Customer didn't borrow this item before";
+	return false;
 }

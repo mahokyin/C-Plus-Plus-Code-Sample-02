@@ -21,11 +21,12 @@ public:
 	string lastName;
 
 	//Function is used to save the transaction to the HistoryData linked list
-	void addTransacionHistory(string transType, string genre, string title, string director, int month, int year);
+	void addTransacionHistory(string trans, Movie *movie);
 	void displayHistory();
 
-	bool canBorrow(int id, string movieType, string action, string movieName, string directorName, int month, int year);
-	bool canReturn(int id, string movieType, string action, string movieName, string directorName, int month, int year);
+	bool canBorrow(string transType, Movie *movie);
+	bool canReturn(string transType, Movie *movie, string *errorMsg);
+
 private:
 	struct HistoryData
 	{

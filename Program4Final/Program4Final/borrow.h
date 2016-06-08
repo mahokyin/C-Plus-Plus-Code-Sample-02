@@ -8,10 +8,10 @@ class Borrow : public Transaction
 {
 public:
 	// Default constructor
-	Borrow(/*int cusID, string type, Movie movie*/);
+	Borrow(Inventory &inventory, History &history, int cusID, Movie &movie);
 
 	// implementation for borrow's execution
-	virtual bool execute(Inventory, History, string);
+	virtual void execute();
 	virtual void showError();
 };
 

@@ -6,10 +6,10 @@ class History
 public:
 	// Default constructor
 	History();
-	bool addCustomer(Customer &customer); //adds a new customer into the hash array of customers
+	~History();
 	bool addCustomer(Customer *customer); //adds a new customer into the hash array of customers
-	void displayAllCustomerHistory();
 	void displayCustomerHistory(int custID);
+	Customer* searchCustomer(int cusID);
 
 private:
 	Customer *customerHashtable[10000];

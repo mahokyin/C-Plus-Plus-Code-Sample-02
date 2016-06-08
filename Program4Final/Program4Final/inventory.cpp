@@ -10,6 +10,18 @@ Inventory::Inventory()
 	cout << "Initilize the movie hashtable successfully" << endl;
 }
 
+Inventory::~Inventory() {
+	MovieHashNode *currPtr = NULL;
+	for (int i = 0; i < 3; i++) {
+			MovieHashNode *head = movieHashtable[i];
+			while (head != NULL) {
+				MovieHashNode *old = head;
+				head = head->next;
+				delete old; old = NULL;
+			}
+	}
+}
+
 int Inventory::hashMovieByObj(Movie *movie) {
 	// index 0---> Classic
 	if (Classic *obj = dynamic_cast<Classic*>(movie))
@@ -273,32 +285,25 @@ MovieHashNode *Inventory::searchInventory(Movie *movie) {
 			Classic *stockObj = static_cast<Classic*>(currPtr->movie);
 			if (*(stockObj) == *obj && stockObj->getActor() == obj->getActor()) {
 				return currPtr;
-			}
-			currPtr = currPtr->next;
+			} else currPtr = currPtr->next;
 		}
-
 	} else if (Comedy *obj = dynamic_cast<Comedy*>(movie)) {
 		currPtr = movieHashtable[1];
 		while (currPtr != NULL) {
 			Comedy *stockObj = static_cast<Comedy*>(currPtr->movie);
-			if (*(stockObj) == *obj && stockObj->getYear() == obj->getYear()) {
+			if (*stockObj == *obj && stockObj->getYear() == obj->getYear()) {
 				return currPtr;
-			}
-			currPtr = currPtr->next;
+			} else currPtr = currPtr->next;
 		}
 	} else if (Drama *obj = dynamic_cast<Drama*>(movie)) {
 		currPtr = movieHashtable[2];
 		while (currPtr != NULL) {
 			Drama *stockObj = static_cast<Drama*>(currPtr->movie);
-			if (*(stockObj) == *obj && stockObj->getYear() == obj->getYear()) {
+			if (*stockObj == *obj && stockObj->getTitle() == obj->getTitle()) {
 				return currPtr;
-			}
-			currPtr = currPtr->next;
+			} else currPtr = currPtr->next;
 		}
 	}
 
 	return NULL;
 }
-
-
-
