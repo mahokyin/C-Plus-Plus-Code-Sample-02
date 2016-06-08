@@ -7,6 +7,14 @@
 
 using namespace std;
 
+struct MovieHashNode {
+	Movie *movie = NULL;
+	int stock;
+	int maxStock;
+	MovieHashNode *next = NULL;
+	MovieHashNode *prev = NULL;
+};
+
 class Inventory
 {
 public:
@@ -16,14 +24,9 @@ public:
 	void displayInventory(); //takes the line that asks to print the inventory
 	bool addMovie(Movie *newMovie, int stockAmount); //adds a new movie into the movie double linked lsisted
 
+	MovieHashNode* searchInventory(Movie *movie);
+
 private:
-	struct MovieHashNode {
-		Movie *movie = NULL;
-		int stock;
-		int maxStock;
-		MovieHashNode *next = NULL;
-		MovieHashNode *prev = NULL;
-	};
 	MovieHashNode *movieHashtable[3];
 	int hashMovieByObj(Movie *movie); // Hash function for movie hashtable and to return the hash value
 

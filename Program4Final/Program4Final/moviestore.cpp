@@ -56,7 +56,7 @@ bool MovieStore::readMovieData(ifstream &input) {
 			getline(input, director, ',');
 			director = director.substr(1, director.size());
 			getline(input, title, ',');
-			title = title.substr(1, director.size());
+			title = title.substr(1, title.size());
 			getline(input, year, '\n');
 			int intYear, intStock;
 			istringstream stream(year);
@@ -70,13 +70,13 @@ bool MovieStore::readMovieData(ifstream &input) {
 			getline(input, director, ',');
 			director = director.substr(1, director.size());
 			getline(input, title, ',');
-			title = title.substr(1, director.size());
+			title = title.substr(1, title.size());
 			getline(input, str);
 			istringstream stream(str);
 			stream >> actorFirstname >> actorLastname >> day >> year;
 			int intYear, intStock, intDay;
 			istringstream stream2(year); stream2 >> intYear; istringstream(stock) >> intStock; istringstream(day) >> intDay;
-			inventory.addMovie(new Classic(director, title, intYear, "F", actorFirstname + " " + actorLastname, intDay), intStock);
+			inventory.addMovie(new Classic(director, title, intYear, "C", actorFirstname + " " + actorLastname, intDay), intStock);
 		}
 		else getline(input, str, '\n');
 	}
@@ -153,8 +153,15 @@ void MovieStore::readCommandData(ifstream &input) {
 				movieYearInt += (singleLine[counter + 4] - '0') * 10;
 				movieYearInt += singleLine[counter + 5] - '0';
 
-				movieName = movieName.substr(1, movieName.size() - 1);
+				movieName = movieName.substr(1, movieName.size());
 				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << movieName << " " << movieYearInt << endl;
+				if (action == "B") {
+					string type(1, mediaType);
+					Comedy *classic = new Comedy("Sleepless in Seattle", "Good Morning Vietnam", 1993, "");
+					MovieHashNode *movieHashNode = inventory.searchInventory(classic);
+					if (movieHashNode != NULL)
+						cout << movieHashNode->stock << movieHashNode->movie->getTitle() << endl;
+				}
 			}
 			else if (movieType == "D")
 			{
@@ -172,9 +179,17 @@ void MovieStore::readCommandData(ifstream &input) {
 					movieName = movieName + singleLine[counter];
 					counter++;
 				}
-				movieName = movieName.substr(1, movieName.size() - 1);
+				movieName = movieName.substr(1, movieName.size());
 
 				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << directorName << " " << movieName << endl;
+
+				if (action == "B") {
+					string type(1, mediaType);
+					Drama *classic = new Drama("Barry Levinson", "Good Morning Vietnam", 444, "");
+					MovieHashNode *movieHashNode = inventory.searchInventory(classic);
+					if (movieHashNode != NULL)
+						cout << movieHashNode->stock << movieHashNode->movie->getTitle() << endl;
+				}
 			}
 			else if (movieType == "C")
 			{
@@ -214,6 +229,14 @@ void MovieStore::readCommandData(ifstream &input) {
 					counter++;
 				}
 				cout << action << " " << customerID << " " << mediaType << " " << movieType << " " << monthMovieInt << " " << movieYearInt << " " << actorFirst << " " << actorLast << endl;
+
+				if (action == "B") {
+					string type(1, mediaType);
+					Classic *classic = new Classic("N/A", "N/A", movieYearInt, type, actorFirst + " " + actorLast, monthMovieInt);
+					MovieHashNode *movieHashNode = inventory.searchInventory(classic);
+					if (movieHashNode != NULL)
+						cout << movieHashNode->stock << movieHashNode->movie->getTitle() << endl;
+				}
 			}
 		}
 		else {

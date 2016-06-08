@@ -24,8 +24,9 @@ public:
 
     //functions to access the different data values per Movie object
     const string getDirector() const;
-    const string getTitle() const;
+    virtual const string getTitle() const;
     const int getYear() const;
+	const string getType() const;
 
 protected:
     string director;                    //data for holding information about...

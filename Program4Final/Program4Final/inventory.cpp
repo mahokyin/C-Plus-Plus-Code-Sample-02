@@ -1,6 +1,6 @@
 //#include "transaction.h"
 #include "inventory.h"
-#include<iomanip>
+#include <iomanip>
 using namespace std;
 
 Inventory::Inventory()
@@ -264,3 +264,41 @@ void Inventory::addFirstMovieNode(Movie *movie, int stockAmount, int index, Movi
 	oldHead->prev = newNode;
 	movieHashtable[index] = newNode;
 }
+
+MovieHashNode *Inventory::searchInventory(Movie *movie) {
+	MovieHashNode *currPtr = NULL;
+	if(Classic *obj = dynamic_cast<Classic*>(movie)) {
+		currPtr = movieHashtable[0];
+		while (currPtr != NULL) {
+			Classic *stockObj = static_cast<Classic*>(currPtr->movie);
+			if (*(stockObj) == *obj && stockObj->getActor() == obj->getActor()) {
+				return currPtr;
+			}
+			currPtr = currPtr->next;
+		}
+
+	} else if (Comedy *obj = dynamic_cast<Comedy*>(movie)) {
+		currPtr = movieHashtable[1];
+		while (currPtr != NULL) {
+			Comedy *stockObj = static_cast<Comedy*>(currPtr->movie);
+			if (*(stockObj) == *obj && stockObj->getYear() == obj->getYear()) {
+				return currPtr;
+			}
+			currPtr = currPtr->next;
+		}
+	} else if (Drama *obj = dynamic_cast<Drama*>(movie)) {
+		currPtr = movieHashtable[2];
+		while (currPtr != NULL) {
+			Drama *stockObj = static_cast<Drama*>(currPtr->movie);
+			if (*(stockObj) == *obj && stockObj->getYear() == obj->getYear()) {
+				return currPtr;
+			}
+			currPtr = currPtr->next;
+		}
+	}
+
+	return NULL;
+}
+
+
+

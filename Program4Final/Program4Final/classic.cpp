@@ -34,8 +34,7 @@ bool Classic::operator==(const Movie &rhs) const
 	const Classic *rhsPtr = dynamic_cast<const Classic*>(&rhs);
 	if (this->year != rhsPtr->year) return false;
 	else {
-		if (this->month == rhsPtr->month) return true;
-		else return false;
+		return this->month == rhsPtr->month;
 	}
 }
 
@@ -52,8 +51,7 @@ bool Classic::operator>(const Movie &rhs) const
 	if (this->year > rhsPtr->year) return true;
 	else if (this->year < rhsPtr->year) return false;
 	else {
-		if (this->month > rhsPtr->month) return true;
-		else return false;
+		return this->month > rhsPtr->month;
 	}
 	
 }

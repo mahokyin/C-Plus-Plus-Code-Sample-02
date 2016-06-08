@@ -16,8 +16,7 @@ Drama::Drama(string d, string t, int y, string ty)
 
 bool Drama::operator==(const Movie &rhs) const
 {
-	if (rhs.getDirector() != this->getDirector()) return false;
-	return true;
+	return !(rhs.getDirector() != this->getDirector());
 }
 
 bool Drama::operator!=(const Movie &rhs) const
