@@ -29,7 +29,7 @@ public:
 private:
 	struct HistoryData
 	{
-		string transactionType = "";  //Either borrowed or retuned
+		string transactionType;  //Either borrowed or retuned
 		Movie *movie = NULL;				 //All the info about the particular movie
 		HistoryData *next = NULL;
 	};

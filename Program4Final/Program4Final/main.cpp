@@ -13,6 +13,6 @@ int main() {
 	ifstream movieCommandFile("data4commands.txt");
 	movieStore.readCommandData(movieCommandFile);
 
-	system("pause");
+	//system("pause");
 	return 0;
 }

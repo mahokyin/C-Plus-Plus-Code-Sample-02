@@ -1,6 +1,8 @@
 #include "moviestore.h"
 #include <stdlib.h>
 #include <cstdlib>
+#include <string>
+#include <iostream>
 #include<iomanip>
 using namespace std;
 
@@ -26,7 +28,8 @@ bool MovieStore::readCustomerData(ifstream &input) {
 
 	while (getline(input, str)) {
 		string id; string lastname; string firstname;
-		istringstream(str) >> id >> lastname >> firstname;
+		istringstream stream(str);
+		stream >> id >> lastname >> firstname;
 		int intId = 0; istringstream(id) >> intId;
 		Customer *customer = new Customer(intId, firstname, lastname);
 		//Customer customer(intId, firstname, lastname);
@@ -45,7 +48,8 @@ bool MovieStore::readMovieData(ifstream &input) {
 
 	while (getline(input, str, ',')) {
 		string type;
-		istringstream(str) >> type;
+		istringstream stream(str);
+		stream >> type;
 		if (type == "F" || type == "D") {
 			string stock, director, title, year;
 			getline(input, stock, ',');
@@ -54,7 +58,9 @@ bool MovieStore::readMovieData(ifstream &input) {
 			getline(input, title, ',');
 			title = title.substr(1, director.size());
 			getline(input, year, '\n');
-			int intYear, intStock; istringstream(year) >> intYear; istringstream(stock) >> intStock;
+			int intYear, intStock;
+			istringstream stream(year);
+			stream >> intYear; istringstream stockStream(stock); stockStream >> intStock;
 			if (type == "F") inventory.addMovie(new Comedy(director, title, intYear, "F"), intStock);
 			else inventory.addMovie(new Drama(director, title, intYear, "D"), intStock);
 		}
@@ -66,9 +72,10 @@ bool MovieStore::readMovieData(ifstream &input) {
 			getline(input, title, ',');
 			title = title.substr(1, director.size());
 			getline(input, str);
-			istringstream(str) >> actorFirstname >> actorLastname >> day >> year;
+			istringstream stream(str);
+			stream >> actorFirstname >> actorLastname >> day >> year;
 			int intYear, intStock, intDay;
-			istringstream(year) >> intYear; istringstream(stock) >> intStock; istringstream(day) >> intDay;
+			istringstream stream2(year); stream2 >> intYear; istringstream(stock) >> intStock; istringstream(day) >> intDay;
 			inventory.addMovie(new Classic(director, title, intYear, "F", actorFirstname + " " + actorLastname, intDay), intStock);
 		}
 		else getline(input, str, '\n');
@@ -99,7 +106,7 @@ void MovieStore::readCommandData(ifstream &input) {
 		{
 			int custID = 0;
 			char temp;
-			istringstream(singleLine) >> temp >> custID;
+			istringstream stream(singleLine); stream >> temp >> custID;
 			history.displayCustomerHistory(custID);
 		}
 		else if (singleLine[0] == 'B' || singleLine[0] == 'R')
