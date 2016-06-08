@@ -235,11 +235,14 @@ void MovieStore::readCommandData(ifstream &input) {
 				}
 				counter += 1;
 
-				while (counter < singleLine.size() - 1)
+				while (counter < singleLine.size())
 				{
 					actorLast = actorLast + singleLine[counter];
 					counter++;
 				}
+
+				if (actorLast[actorLast.size() - 1] == '\r')
+					actorLast.erase(actorLast.size() - 1);
 
 				if (mediaType != 'D') {
 					cout << "Invalid Action: Invalid media type !" << endl;

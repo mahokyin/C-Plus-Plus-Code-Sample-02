@@ -28,17 +28,3 @@ C, 10, Stanley Kubrick, A Clockwork Orange, Malcolm McDowell 2 1971
 F, 10, John Landis, National Lampoon's Animal House, 1978
 D, 10, Nancy Savoca, Dogfight, 1991
 F, 10, Nora Ephron, You've Got Mail, 1998
-F, 10, Woody Allen, Annie Hall, 1977
-F, 10, Woody Allen, Annie Hall, 1978
-F, 10, Woody Allen, Annie Hall, 1979
-F, 10, Woody Allen, Annie Hall, 1976
-D, 10, Gus Van Sant, Pood Will Hunting, 2000
-D, 10, Gus Van Sant, Good Will Hunting, 2000
-D, 10, Gus Van Sant, Bood Will Hunting, 2000
-D, 10, Gus Van Sant, Dood Will Hunting, 2000
-D, 10, Gus Van Sant, Zood Will Hunting, 2000
-C, 10, Victor Fleming, Gone With the Wind, Zivien Leigh 2 1939
-C, 10, Victor Fleming, Gone With the Wind, Xivien Leigh 2 1939
-C, 10, Victor Fleming, Gone With the Wind, Aivien Leigh 2 1939
-C, 10, Victor Fleming, Gone With the Wind, Gvien Leigh 2 1939
-C, 10, Victor Fleming, Gone With the Wind, Gvien Leigh 2 1940
