@@ -1,5 +1,7 @@
 # C-Plus-Plus-Code-Sample-02
 
+Programmer: Joe Ma, Andrey Spencer
+
 A local movie rental store wishes to automate their inventory tracking system. Currently there are
 three types of movies/videos (in DVD media) to be tracked:
 - Comedy (denoted as ‘F’ for funny)
@@ -14,3 +16,5 @@ desired in the system:
 You will design and implement a program that will initialize the contents of the inventory from a
 file (data4movies.txt), the customer list from another file (data4customers.txt), and then
 process an arbitrary sequence of commands from a third file (data4commands.txt)
+
+![Alt text]https://github.com/mahokyin/C-Plus-Plus-Code-Sample-02/blob/master/Capture.JPG
