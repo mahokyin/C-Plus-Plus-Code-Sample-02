@@ -7,9 +7,8 @@
 // Purpose - History class has functions to add a customer to the customer hash table and search, and display customers.
 // ---------------------------------------------------------------------------------------------------------------------
 #include "history.h"
-#include <iostream>
-#include <sstream>
 #include <iomanip>
+#include <malloc.h>
 
 using namespace std;
 

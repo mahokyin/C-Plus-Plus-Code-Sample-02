@@ -160,12 +160,9 @@ void MovieStore::readCommandData(ifstream &input) {
 			int movieYearInt = 0;
 			int monthMovieInt = 0;
 			int counter = 11;
-			int movieNameCounter = 0;
 			string action(1, singleLine[0]); //For borrow, will be 'r' for return, used for helper function canBorrow
 			string actorFirst;
 			string actorLast;
-			string actorFull;
-			string temp;
 
 			//Get the customer id
 			customerID = (singleLine[2] - '0') * 1000;

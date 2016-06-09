@@ -33,5 +33,4 @@ protected:
 	Customer *customer = NULL;
 	MovieHashNode *stockHashNode = NULL;
 };
-
 #endif

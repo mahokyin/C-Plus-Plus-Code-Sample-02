@@ -52,12 +52,7 @@ Return::Return(Inventory &inventory, History &history, int cusID, Movie &movie)
 
 	// Check if customer are able to return
 	if (customer == NULL) return;
-	if (customer->canReturn("R", stockHashNode->movie, &reason)) { //Calls helper
-		status = true;
-	}
-	else {
-		status = false;
-	}
+	status = customer->canReturn("R", stockHashNode->movie, &reason);
 }
 
 // ---------------------------------------execute----------------------------------------

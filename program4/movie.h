@@ -36,7 +36,6 @@ public:
     const string getDirector() const;
     virtual const string getTitle() const;
     const int getYear() const;
-	const string getType() const;
 
 protected:
     string director;                    //data for holding information about...

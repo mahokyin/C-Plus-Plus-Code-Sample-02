@@ -28,15 +28,15 @@ Inventory::Inventory()
 // PostCondition: All memory will be released.
 // ---------------------------------------------------------------------------------------
 Inventory::~Inventory() {
-	MovieHashNode *currPtr = NULL; //makes a temp pointer
-
 	//Loop through the hash table deleting pointers
 	for (int i = 0; i < 3; i++) {
 		MovieHashNode *head = movieHashtable[i];
 		while (head != NULL) { //Run through linked list of movies
 			MovieHashNode *old = head;
+			Movie *oldMovie = old->movie;
 			head = head->next;
-			delete old; old = NULL;
+			delete oldMovie;
+			delete old;
 		}
 	}
 }
