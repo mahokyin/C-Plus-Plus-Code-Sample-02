@@ -17,4 +17,4 @@ You will design and implement a program that will initialize the contents of the
 file (data4movies.txt), the customer list from another file (data4customers.txt), and then
 process an arbitrary sequence of commands from a third file (data4commands.txt)
 
-![Alt text]https://github.com/mahokyin/C-Plus-Plus-Code-Sample-02/blob/master/Capture.JPG
+![Alt text](https://github.com/mahokyin/C-Plus-Plus-Code-Sample-02/blob/master/Capture.JPG)
