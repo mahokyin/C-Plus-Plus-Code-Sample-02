@@ -33,9 +33,6 @@
     <ClCompile Include="classic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="transaction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="return.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

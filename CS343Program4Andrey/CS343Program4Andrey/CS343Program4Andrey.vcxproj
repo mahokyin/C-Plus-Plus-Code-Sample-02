@@ -89,7 +89,6 @@
     <ClCompile Include="movie.cpp" />
     <ClCompile Include="moviestore.cpp" />
     <ClCompile Include="return.cpp" />
-    <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="borrow.h" />

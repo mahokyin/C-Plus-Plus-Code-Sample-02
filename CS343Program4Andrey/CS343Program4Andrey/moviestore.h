@@ -1,70 +1,70 @@
+// ------------------------------------------------ moviestore.h --------------------------------------------------------
+// Programmer Name: Joe Ma, Andrey Spencer
+// Assignment: Program 4 implementation
+// Creation Date: 6/1/16
+// Date of Last Modification: 6/8/16
+// ---------------------------------------------------------------------------------------------------------------------
+// Purpose - MovieStore functions that will read the files and break them up
+// ---------------------------------------------------------------------------------------------------------------------
 #ifndef MOVIESTORE_H
 #define MOVIESTORE_H
-#include <iostream>
-#include <string>
 #include "movie.h"
 #include "customer.h"
 #include "classic.h"
+#include "borrow.h"
+#include "return.h"
 #include "comedy.h"
 #include "drama.h"
 #include <string>
 #include <sstream>
 #include <fstream>
-//#include "transaction.h"
-//#include "borrow.h"
-//#include "inventory.h"
-//#include "return.h"
-//#include "history.h"
+#include <stdlib.h>
+#include <cstdlib>
+#include <string>
+#include <iostream>
+#include<iomanip>
 
 using namespace std;
 
 class MovieStore
 {
 public:
-	MovieStore(); //creates a new instance of MovieStore that is empty.
-	MovieStore(ifstream &inputCustomer, ifstream &inputMovie); //creates a new instance of MovieStore that is empty.
+	// ------------------------------------Default Constructor--------------------------------
+	MovieStore(); 
+
+	// ---------------------------------------Constructor-------------------------------------
+	// Description: creates a new instance of MovieStore that is empty. Provides messages
+	//				for the success or failure of reading the files.
+	// PreCondition: Takes in 2 ifstream files, customer data and movie data
+	// ---------------------------------------------------------------------------------------
+	MovieStore(ifstream &inputCustomer, ifstream &inputMovie);
+
+	// ----------------------------------readCustomerData ------------------------------------
+	// Description: Reads the customer file and breaks the file up, organizing the data
+	// preconditions: customer file must be saved in same folder as .h and .cpp files
+	// postconditions: customer object will be made for correct info from the file, or
+	//				   error message will be displayed.
+	// ---------------------------------------------------------------------------------------
 	bool readCustomerData(ifstream &input);
+
+	// -----------------------------------readMovieData --------------------------------------
+	// Description: Reads the movie file and breaks the file up, organizing the data
+	// preconditions: movie file must be saved in same folder as .h and .cpp files
+	// postconditions: movie object will be made for correct info from the file, or
+	//				   error message will be displayed.
+	// ---------------------------------------------------------------------------------------
 	bool readMovieData(ifstream &input);
-	bool addCustomer(Customer &customer); //adds a new customer into the hash array of customers
-	//using the line taken from the text document.
-	bool addMovie(Movie *newMovie, int stockAmount); //adds a new movie into the movie double linked lsisted
-	//using the line taken from the text document.
-	void displayCustomerHistory(int customerID); //takes the line that asks to print the information
-	//of the transactions of a user, and prints it.
-	void displayInventory(string line); //takes the line that asks to print the inventory /////////////////////////dont think we need, same as display all movie???
-	//of the movie store, and prints it.
-	void displayAllCustomer();
-	void displayAllMovie();
-	bool returnMovie(string line); //takes the line that asks to return a movie to the store
-	//and returns it if the values are valid.
-	bool borrowMovie(string line); //takes the line that asks to borrow a movie from the store
-	//and borrows it if the values are valid.
 
+	// -----------------------------------readCommandData ------------------------------------
+	// Description: Reads the command file and breaks the file up, organizing the data
+	// preconditions: command file must be saved in same folder as .h and .cpp files
+	// postconditions: One of 4 actions will be performed (Borrow, Return, History, Inventory)
+	//				   or error message will be displayed.
+	// ---------------------------------------------------------------------------------------
+	void readCommandData(ifstream &input);
 private:
-	// Structure of hashtable and hashNode for Customer object
-	struct CustomerHashNode {
-		Customer customer;
-		CustomerHashNode *next;
-	};
-	CustomerHashNode *customerHashtable[10];
-	int hashCustomerID(int id); // gets the hash value from the customer ID
-
-	struct MovieHashNode {
-		Movie *movie = NULL;
-		int stock;
-		int maxStock;
-		MovieHashNode *next = NULL;
-		MovieHashNode *prev = NULL;
-	};
-	MovieHashNode *movieHashtable[3];
-	int hashMovieByObj(Movie *movie); // Hash function for movie hashtable and to return the hash value
-
-	// Utility functions
-	bool addClassic(Classic *newClassic, int stockAmount);
-	bool addComedy(Comedy *newComedy, int stockAmount);
-	bool addDrama(Drama *newDrama, int stockAmount);
-	void addFirstMovieNode(Movie *movie, int stockAmount, int index, MovieHashNode *oldHead);
-	void insertMovieNode(Movie *movie, int stockAmount, MovieHashNode *prev);
+	Inventory inventory;
+	History history;
 };
 
 #endif
