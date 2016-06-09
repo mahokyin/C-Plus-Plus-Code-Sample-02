@@ -14,3 +14,129 @@ desired in the system:
 You will design and implement a program that will initialize the contents of the inventory from a
 file (data4movies.txt), the customer list from another file (data4customers.txt), and then
 process an arbitrary sequence of commands from a third file (data4commands.txt)
+
+Here's the sample output from the program
+|Comedy|
+Stock     Director            Title                              Year
+10        Woody Allen         Annie Hall                         1977
+10        Joel Coen           Fargo                              1996
+10        John Landis         National Lampoon's Animal House    1978
+10        Gore Verbinski      Pirates of the Caribbean           2003
+10        Nora Ephron         Sleepless in Seattle               1993
+10        Rob Reiner          When Harry Met Sally               1989
+10        Nora Ephron         You've Got Mail                    1998
+
+|Drama|
+Stock     Director            Title                              Year
+10        Barry Levinson      Good Morning Vietnam               1988
+10        Clint Eastwood      Unforgiven                         1992
+10        Gus Van Sant        Good Will Hunting                  2000
+10        Jonathan Demme      Silence of the Lambs               1991
+10        Nancy Savoca        Dogfight                           1991
+10        Phillippe De Broca  King of Hearts                     1967
+10        Steven Spielberg    Schindler's List                   1993
+
+|Classic|
+Stock     Director            Title                    Actor                 Month          Year
+10        George Cukor        Holiday                  Cary Grant             9             1938
+10        George Cukor        Holiday                  Katherine Hepburn      9             1938
+10        Victor Fleming      Gone With the Wind       Clark Gable            2             1939
+10        Victor Fleming      Gone With the Wind       Vivien Leigh           2             1939
+10        Victor Fleming      The Wizard of Oz         Judy Garland           7             1939
+10        George Cukor        The Philadelphia Story   Cary Grant             5             1940
+10        George Cukor        The Philadelphia Story   Katherine Hepburn      5             1940
+10        John Huston         The Maltese Falcon       Humphrey Bogart        10            1941
+10        Michael Curtiz      Casablanca               Humphrey Bogart        8             1942
+10        Michael Curtiz      Casablanca               Ingrid Bergman         8             1942
+10        Frank Capra         It's a Wonderful Life    Donna Reed             11            1946
+10        Frank Capra         It's a Wonderful Life    James Steward          11            1946
+10        Stanley Kubrick     A Clockwork Orange       Malcolm McDowell       2             1971
+10        Hal Ashby           Harold and Maude         Ruth Gordon            3             1971
+
+No transaction history for Minnie Mouse (1000)
+No transaction history for Freddie Frog (5000)
+No transaction history for Wally Wacky (8000)
+Wally Wacky(8000) : Customer can't borrow the same item !
+invalid character input
+invalid character input
+Invalid Action: invalid customer ID !
+Invalid Action: Comedy video does not exist !
+Invalid Action: Invalid media type !
+Donald Duck(2000) : Customer can't borrow the same item !
+Larry Lizard(9000) : Customer can't borrow the same item !
+Sammy Spider(7777) : Customer can't borrow the same item !
+Invalid Action: Drama video does not exist !
+
+
+|Comedy|
+Stock     Director            Title                              Year
+9         Woody Allen         Annie Hall                         1977
+9         Joel Coen           Fargo                              1996
+9         John Landis         National Lampoon's Animal House    1978
+10        Gore Verbinski      Pirates of the Caribbean           2003
+9         Nora Ephron         Sleepless in Seattle               1993
+9         Rob Reiner          When Harry Met Sally               1989
+9         Nora Ephron         You've Got Mail                    1998
+
+|Drama|
+Stock     Director            Title                              Year
+9         Barry Levinson      Good Morning Vietnam               1988
+9         Clint Eastwood      Unforgiven                         1992
+9         Gus Van Sant        Good Will Hunting                  2000
+9         Jonathan Demme      Silence of the Lambs               1991
+8         Nancy Savoca        Dogfight                           1991
+9         Phillippe De Broca  King of Hearts                     1967
+9         Steven Spielberg    Schindler's List                   1993
+
+|Classic|
+Stock     Director            Title                    Actor                 Month          Year
+9         George Cukor        Holiday                  Cary Grant             9             1938
+10        George Cukor        Holiday                  Katherine Hepburn      9             1938
+10        Victor Fleming      Gone With the Wind       Clark Gable            2             1939
+10        Victor Fleming      Gone With the Wind       Vivien Leigh           2             1939
+10        Victor Fleming      The Wizard of Oz         Judy Garland           7             1939
+9         George Cukor        The Philadelphia Story   Cary Grant             5             1940
+9         George Cukor        The Philadelphia Story   Katherine Hepburn      5             1940
+9         John Huston         The Maltese Falcon       Humphrey Bogart        10            1941
+10        Michael Curtiz      Casablanca               Humphrey Bogart        8             1942
+10        Michael Curtiz      Casablanca               Ingrid Bergman         8             1942
+10        Frank Capra         It's a Wonderful Life    Donna Reed             11            1946
+10        Frank Capra         It's a Wonderful Life    James Steward          11            1946
+9         Stanley Kubrick     A Clockwork Orange       Malcolm McDowell       2             1971
+1         Hal Ashby           Harold and Maude         Ruth Gordon            3             1971
+
+
+Transaction history for Minnie Mouse (1000)
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+B The Philadelphia Story, George Cukor, 1940 5, Cary Grant
+B Good Will Hunting, Gus Van Sant, 2000
+B The Philadelphia Story, George Cukor, 1940 5, Katherine Hepburn
+B Good Morning Vietnam, Barry Levinson, 1988
+
+Transaction history for Mickey Mouse (1111)
+B Holiday, George Cukor, 1938 9, Cary Grant
+B The Maltese Falcon, John Huston, 1941 10, Humphrey Bogart
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+B A Clockwork Orange, Stanley Kubrick, 1971 2, Malcolm McDowell
+
+Transaction history for Freddie Frog (5000)
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+R Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+R Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+R Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+
+Transaction history for Wally Wacky (8000)
+B National Lampoon's Animal House, John Landis, 1978
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+R You've Got Mail, Nora Ephron, 1998
+B You've Got Mail, Nora Ephron, 1998
+
+Transaction history for Porky Pig (8888)
+B Harold and Maude, Hal Ashby, 1971 3, Ruth Gordon
+B Dogfight, Nancy Savoca, 1991
+B Silence of the Lambs, Jonathan Demme, 1991
+B When Harry Met Sally, Rob Reiner, 1989
+B Annie Hall, Woody Allen, 1977
